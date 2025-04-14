@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./contacto.css" />
+    <title>Posada El Encanto | Contactanos</title>
+  </head>
+  <body>
+    <header id="Menu">
+      <div class="container-heat">
+        <img src="img/logo1.webp" alt="Logo El Encanto" class="logo" />
+        <div class="container-titulo">
+          <h1 class="Titulo1">El Encanto</h1>
+          <p class="subtitulop">Posada & Club</p>
+        </div>
+
+        <nav class="container-menu">
+          <ul class="enlaces-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="Contactanos.html">Contacto</a></li>
+          </ul>
+
+          <button class="btnreserva1">Reservaciones</button>
+        </nav>
+      </div>
+    </header>
+
+    <section id="seccion1">
+      <div class="container1">
+        <h1>La mejor posada del estado Lara, en un rinconcito de Sanare</h1>
+        <br />
+        <h3>
+          ¿Tienes alguna pregunta o necesitas más información? No dudes en
+          contactarnos, estamos aquí para ayudarte a planificar tu estancia
+          perfecta en Posada El Encanto. ¡Esperamos tener noticias tuyas pronto!
+        </h3>
+      </div>
+    </section>
+
+    <section id="formulario">
+      <div class="form-container">
+        <form>
+          <label for="nombre">Nombre y apellido *</label><br />
+          <input type="text" id="nombre" name="nombre" required /><br /><br />
+
+          <label for="email">Email *</label><br />
+          <input type="email" id="email" name="email" required /><br /><br />
+
+          <label for="solicitud">¿Cómo te podemos ayudar? *</label><br />
+          <select id="solicitud" name="solicitud" required>
+            <option value="">- Escoger el tipo de solicitud -</option>
+            <option value="Reserva">Reserva</option>
+            <option value="Consulta">Consulta</option>
+            <!-- Agrega más opciones según sea necesario --></select
+          ><br /><br />
+
+          <label for="habitacion"
+            >Seleccione el tipo de habitación para su estadía *</label
+          ><br />
+          <select id="habitacion" name="habitacion" required>
+            <option value="ESTÁNDAR">ESTÁNDAR</option>
+            <option value="SUITE">SUITE</option>
+            <option value="SUPERIOR">SUPERIOR</option>
+            <!-- Agrega más opciones si es necesario --></select
+          ><br /><br />
+
+          <label for="cantidadHabitaciones">Cantidad de habitaciones *</label
+          ><br />
+          <select
+            id="cantidadHabitaciones"
+            name="cantidadHabitaciones"
+            required
+          >
+            <option value="">- Seleccionar -</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+
+            <!-- Agrega opciones de cantidad -->
+          </select>
+          <p>
+            Nota: Si solicitas cotización para más de 3 habitaciones,
+            contáctanos directamente vía WhatsApp ✅.
+          </p>
+          <br />
+
+          <label for="fechaLlegada">Fecha de llegada *</label><br />
+          <input
+            type="date"
+            id="fechaLlegada"
+            name="fechaLlegada"
+            required
+          /><br /><br />
+
+          <label for="fechaSalida">Fecha de salida *</label><br />
+          <input
+            type="date"
+            id="fechaSalida"
+            name="fechaSalida"
+            required
+          /><br /><br />
+
+          <label for="adultos">Adultos</label><br />
+          <input
+            type="number"
+            id="adultos"
+            name="adultos"
+            value="1"
+            min="1"
+            required
+          /><br />
+          <small>Mayor de 12 años</small><br /><br />
+
+          <label for="ninos">Niños</label><br />
+          <input
+            type="number"
+            id="ninos"
+            name="ninos"
+            value="0"
+            min="0"
+          /><br />
+          <small>Menores a 11 años</small><br /><br />
+          <label for="telefono">Teléfono / Phone *</label><br />
+          <input
+            type="tel"
+            id="telefono"
+            name="telefono"
+            value="+580412-1234567"
+            required
+          /><br /><br />
+
+          <label for="mensaje">Mensaje *</label><br />
+          <textarea id="mensaje" name="mensaje" required></textarea><br /><br />
+
+          <input type="submit" value="Enviar solicitud" />
+        </form>
+      </div>
+    </section>
+
+    <section id="seccion3">
+      <div class="container-redes">
+        <h1>Encuentranos en nuestras redes sociales</h1>
+        <div class="container-enlaces">
+          <a
+            href="https://www.instagram.com/posadaelencanto?igsh=czNjdzlqeGx2emQy"
+            target="_blank"
+            ><i class="fa-brands fa-instagram"></i
+          ></a>
+          <a
+            href="https://www.facebook.com/profile.php?id=100063996907613"
+            target="_blank"
+            ><i class="fa-brands fa-facebook"></i
+          ></a>
+          <a
+            href="https://api.whatsapp.com/send?phone=584145092920&text=%C2%A1Hola!%20Me%20gustar%C3%ADa%20consultar%20sus%20precios%20y%20disponibilidad%20%E2%98%BA%EF%B8%8F"
+            target="_blank"
+            ><i class="fa-brands fa-whatsapp"></i
+          ></a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footercito">
+      <div class="container-copy">
+        &copy; Posada El Encanto C.A. - Todos los derechos reservados powered
+        by: Reimil Azuaje, Alejandro Ramos
+      </div>
+    </footer>
+  </body>
+</html>

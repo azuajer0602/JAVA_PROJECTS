@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="anchorpane" prefHeight="667.0" prefWidth="1300.0" styleClass="anchorfondo" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.VistaMatrimoniosController">
+    <stylesheets>
+        <URL value="@vistamatrimonios.css" />
+    </stylesheets>
+   <children>
+      <TableView fx:id="tablacasados" layoutX="547.0" layoutY="131.0" prefHeight="436.0" prefWidth="738.0" styleClass="input">
+         <columns>
+            <TableColumn fx:id="collibro" prefWidth="52.0" text="Libro" />
+            <TableColumn fx:id="colfolio" prefWidth="53.6" sortType="DESCENDING" text="Folio" />
+            <TableColumn fx:id="colnombreesposa" prefWidth="92.0" text="Nombre Esposa" />
+            <TableColumn fx:id="colnombreesposo" prefWidth="94.4000244140625" text="Nombre Esposo" />
+            <TableColumn fx:id="coledadesposa" prefWidth="76.800048828125" text="Edad Esposa" />
+            <TableColumn fx:id="coledadesposo" prefWidth="81.60009765625" text="Edad Esposo" />
+            <TableColumn fx:id="coltestigos" prefWidth="112.800048828125" text="Testigos" />
+            <TableColumn fx:id="colfechadeboda" prefWidth="75.2000732421875" text="Fecha de boda" />
+            <TableColumn fx:id="colpresbitero" prefWidth="96.0" text="Presbitero" />
+         </columns>
+         <effect>
+            <DropShadow />
+         </effect>
+      </TableView>
+      <TextField fx:id="txtfiltro" layoutX="859.0" layoutY="59.0" prefHeight="38.0" prefWidth="284.0" styleClass="input">
+         <effect>
+            <DropShadow />
+         </effect>
+      </TextField>
+      <Label layoutX="692.0" layoutY="50.0" prefHeight="56.0" prefWidth="154.0" text="BUSCAR :" textFill="WHITE">
+         <font>
+            <Font size="32.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Label>
+      <Label layoutX="1071.0" layoutY="638.0" text="Desarrollado por @Rickardo06" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold Italic" size="15.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Label>
+      <Label layoutX="92.0" layoutY="23.0" prefHeight="71.0" prefWidth="468.0" styleClass="labelcito" text="Ingrese los datos :" textFill="WHITE" underline="true">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="98.0" fitWidth="102.0" layoutX="533.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Modelo/pngegg%20(1).png" />
+         </image>
+      </ImageView>
+      <Button fx:id="btnguardar" layoutX="817.0" layoutY="584.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="253.0" styleClass="mi-botoncito" text="Guardar">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Button>
+      <Button fx:id="btneliminar" layoutX="541.0" layoutY="584.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="253.0" styleClass="mi-botoncito" text="Eliminar">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Button>
+      <VBox layoutX="34.0" layoutY="106.0" prefHeight="514.0" prefWidth="478.0" styleClass="vboxregistro">
+         <children>
+            <Label prefHeight="36.0" prefWidth="125.0" text="Esposa : " textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" top="35.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtnombreesposa" prefHeight="38.0" prefWidth="217.0" promptText="Ingrese el nombre completo de la novia" styleClass="input">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <VBox.margin>
+                  <Insets left="90.0" right="150.0" top="-34.0" />
+               </VBox.margin>
+            </TextField>
+            <Label prefHeight="36.0" prefWidth="54.0" text="Libro :" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <effect>
+                  <DropShadow>
+                     <color>
+                        <Color red="1.0" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <VBox.margin>
+                  <Insets left="340.0" top="-38.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtlibro" prefHeight="37.0" prefWidth="58.0" styleClass="input">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <VBox.margin>
+                  <Insets left="400.0" right="5.0" top="-33.0" />
+               </VBox.margin>
+            </TextField>
+            <Label prefHeight="36.0" prefWidth="70.0" text="Pagina :" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <VBox.margin>
+                  <Insets left="327.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtfolio" prefHeight="38.0" prefWidth="70.0" styleClass="input">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <VBox.margin>
+                  <Insets left="400.0" right="5.0" top="-34.0" />
+               </VBox.margin>
+            </TextField>
+            <Label prefHeight="36.0" prefWidth="88.0" text="Esposo : " textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" top="-30.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtnombreesposo" prefHeight="37.0" prefWidth="218.0" promptText="Ingrese el Nombre completo del novio" styleClass="input">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <VBox.margin>
+                  <Insets left="90.0" right="150.0" top="-35.0" />
+               </VBox.margin>
+            </TextField>
+            <Label text="Edad Esposa :" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" top="40.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtedadesposa" prefHeight="22.0" prefWidth="51.0" styleClass="input">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <VBox.margin>
+                  <Insets left="140.0" right="250.0" top="-30.0" />
+               </VBox.margin>
+            </TextField>
+            <Label text="Edad Esposo:" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" top="20.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtedadesposo" prefHeight="37.0" prefWidth="51.0" styleClass="input">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="140.0" right="250.0" top="-30.0" />
+               </VBox.margin>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </TextField>
+            <Label prefHeight="36.0" prefWidth="118.0" text="Fecha de boda" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="16.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <VBox.margin>
+                  <Insets left="300.0" top="-80.0" />
+               </VBox.margin>
+            </Label>
+            <DatePicker fx:id="dtpfechaboda" prefHeight="7.0" prefWidth="172.0" styleClass="input">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <VBox.margin>
+                  <Insets left="270.0" />
+               </VBox.margin>
+            </DatePicker>
+            <Label text="Testigos :" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" top="40.0" />
+               </VBox.margin>
+            </Label>
+            <TextArea fx:id="txtartestigos" prefHeight="56.0" prefWidth="342.0" promptText="Cada Padrino debe estar separado por punto y coma &quot;;&quot;" styleClass="input">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <VBox.margin>
+                  <Insets left="100.0" right="30.0" top="-20.0" />
+               </VBox.margin>
+            </TextArea>
+            <Label text="Presbitero:" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" top="40.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtpresbitero" prefHeight="32.0" prefWidth="254.0" styleClass="input">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <VBox.margin>
+                  <Insets left="110.0" right="130.0" top="-28.0" />
+               </VBox.margin>
+            </TextField>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

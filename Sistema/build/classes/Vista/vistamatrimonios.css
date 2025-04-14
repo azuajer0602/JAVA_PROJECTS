@@ -1,0 +1,136 @@
+/*
+ * Estilos actualizados con sombra roja fuerte y texto negro.
+ */
+
+.mainFxmlClass {
+    /* Estilo principal, puedes agregar reglas generales aquí si es necesario */
+}
+
+.labelcito {
+    -fx-font-family: "Roboto";
+    -fx-text-fill: #000000; /* Negro para el texto */
+}
+
+.anchorfondo {
+    -fx-background-color: linear-gradient(to left, #FAF3E0, #F8E1D1); /* De blanco cremoso a rosa claro */
+}
+
+.vboxbotones {
+    -fx-background-color: #FBE8EB; /* Rosa pálido */
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-border-color: #FADCD9; /* Rosa más claro */
+    -fx-effect: dropshadow(gaussian, #C8102E, 2, 2, 2, 2); /* Sombra roja fuerte */
+}
+
+.mi-botoncito {
+    -fx-border-radius: 15px;
+    -fx-border-width: 0;
+    -fx-background-color: #FDF1F4; /* Rosa pálido muy claro */
+    -fx-text-fill: #000000; /* Negro para el texto */
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-effect: dropshadow(gaussian, #C8102E, 12, 0.5, 0, 2); /* Sombra roja fuerte */
+    -fx-background-radius: 15px;
+    -fx-cursor: hand;
+    -fx-font-family: "Roboto";
+}
+
+.vboxregistro {
+    -fx-background-color: linear-gradient(to left, #FDF3F5, #F8E6F3); /* Gradiente de rosa claro a lavanda */
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-padding: 10px;
+    -fx-effect: dropshadow(gaussian, #C8102E, 2, 2, 2, 2); /* Sombra roja fuerte */
+}
+
+/* Estilo para el contenedor */
+.input {
+    -fx-background-radius: 10px; /* Bordes redondeados */
+    -fx-background-color: #FEF6F7; /* Rosa muy claro */
+ 
+    -fx-text-fill: #000000; /* Negro para el texto */
+    -fx-effect: dropshadow(gaussian, #C8102E, 6, 0.5, 2, 2); /* Sombra roja fuerte */
+}
+
+/* Estilo para el DatePicker */
+.date-picker {
+    -fx-background-color: #FEF6F7; /* Rosa muy claro */
+    -fx-background-radius: 10px;
+    -fx-padding: 5px;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    /* Se ha eliminado la sombra */
+}
+
+.date-picker .text-field {
+    -fx-background-color: #FEF6F7;
+    -fx-text-fill: #000000; /* Negro para el texto */
+    -fx-border-color: transparent;
+    -fx-background-radius: 10px;
+    /* Se ha eliminado la sombra */
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: #F8D2D8; /* Rosa claro */
+    -fx-background-radius: 50%;
+    -fx-text-fill: #000000; /* Negro para el texto */
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-pref-width: 16px;
+    -fx-pref-height: 16px;
+}
+
+.date-picker .arrow-button:hover {
+    -fx-background-color: #F5B7B1; /* Rosa oscuro al pasar el ratón */
+}
+
+/* Estilo para los labels dentro del DatePicker */
+.date-picker .label {
+    -fx-text-fill: #000000; /* Negro para el texto */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, #C8102E, 10, 0.7, 0, 2); /* Sombra roja fuerte */
+}
+
+.date-picker .month-year {
+    -fx-text-fill: #000000; /* Negro para el texto */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, #C8102E, 10, 0.7, 0, 2); /* Sombra roja fuerte */
+}
+
+.text-area {
+    -fx-control-inner-background: #FEF6F7; /* Rosa muy claro */
+    -fx-text-fill: #000000; /* Negro para el texto */
+    -fx-background-radius: 5px;
+    -fx-border-color: #F8D2D8; /* Rosa claro */
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, #C8102E, 6, 0.7, 0, 4); /* Sombra roja fuerte */
+}
+
+/* Estilo para la cabecera de la columna de la tabla */
+.table-view .column-header {
+    -fx-background-color: #FAF3E0; /* Blanco cremoso */
+    -fx-text-fill: #000000; /* Negro para el texto */
+    -fx-border-color: #F8E1D1; /* Rosa claro */
+    -fx-border-width: 0 0 1px 0;
+}
+
+/* Estilo para la cabecera de columna al pasar el ratón sobre ella */
+.table-view .column-header:hover {
+    -fx-background-color: #F8E6F3; /* Rosa más claro */
+}
+
+/* Estilo para la fila del encabezado de la tabla */
+.table-view .column-header-background {
+    -fx-background-color: #FEF6F7; /* Rosa muy claro */
+}
+
+.label {
+    -fx-text-fill: #000000; /* Negro para el texto */
+    -fx-font-family: "Roboto"; /* Fuente Roboto */
+    -fx-font-weight:bold ; /* Negrita */
+   -fx-font-style: italic; /* Cursiva */
+    -fx-effect: dropshadow(gaussian, #C8102E, 3, 0, 1, 1); /* Sombra roja fuerte */
+}

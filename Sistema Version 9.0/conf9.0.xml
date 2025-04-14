@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>C:\Users\Programación Reimil\Desktop\Paletas de colores\Sistema\dist\Sistema.jar</jar>
+  <outfile>C:\Users\Programación Reimil\Desktop\Sistema Version 9.0\Sistema Automatizacion 9.0.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl></downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>C:\Users\Programación Reimil\Desktop\Paletas de colores\Sistema\src\Modelo\Iconitoo.ico</icon>
+  <jre>
+    <path>C:\Program Files\Java\jdk1.8.0_202</path>
+    <requiresJdk>false</requiresJdk>
+    <requires64Bit>false</requires64Bit>
+    <minVersion>1.8</minVersion>
+    <maxVersion></maxVersion>
+  </jre>
+</launch4jConfig>

@@ -1,0 +1,179 @@
+/*
+ * Estilos CSS para la aplicación.
+ */
+
+.mainFxmlClass {
+
+}
+
+.labelcito {
+    -fx-font-family: "Roboto";
+}
+
+.anchorfondo {
+    -fx-background-color: linear-gradient(to left, #FFFFFF, #C0C0C0);
+}
+
+.vboxbotones {
+    -fx-background-color: #C0C0C0;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+/* Estilo del botón en JavaFX */
+.mi-botoncito {
+    -fx-border-radius: 15px;
+    -fx-border-width: 0;
+    -fx-background-color: #E8E8E8;
+    -fx-text-fill: #000000;
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+    -fx-effect: dropshadow(gaussian, #4a90e2, 12, 0.5, 0, 2); /* Sombra azul */
+    -fx-background-radius: 15;
+    -fx-cursor: hand;
+    -fx-font-family: "Roboto";
+}
+
+.vboxregistro {
+    -fx-background-color: linear-gradient(to left,  #C0C0C0,#4a90e2); /* Gradiente de blanco a gris */
+    -fx-border-radius: 15px; /* Radio del borde redondeado */
+    -fx-background-radius: 15px; /* Radio del fondo redondeado */
+    -fx-padding: 10px; /* Espaciado interno */
+     -fx-effect: dropshadow(gaussian, #4a90e2, 2, 2, 2, 2); /* Sombra azul */
+}
+
+/* Estilo para el contenedor */
+.input {
+    -fx-background-radius: 10px; /* Bordes menos redondeados */
+    -fx-background-color: #E0E0E0; /* Gris claro para el fondo del input */
+    -fx-box-shadow: inset 1px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra interna sutil */
+    -fx-text-fill: #000000; /* Texto negro para buen contraste */
+      -fx-effect: dropshadow(gaussian, #4a90e2, 6, 0.5, 2, 2); 
+}
+
+/* Estilo general para el RadioButton y su etiqueta */
+.radio-label {
+    -fx-padding: 0.25em 0.5em; /* Espaciado más ajustado */
+    -fx-background-color: #949494; /* Fondo gris claro */
+    -fx-border-color: #ccc; /* Borde claro */
+    -fx-border-width: 1px; /* Ancho del borde */
+    -fx-border-radius: 4px; /* Bordes redondeados */
+    -fx-text-fill: #333333; /* Texto gris oscuro */
+    -fx-font-size: 16px; /* Tamaño de fuente */
+    -fx-font-weight: bold; /* Negrita */
+    -fx-font-style: italic; /* Cursiva */
+    -fx-alignment: center-left; /* Alineación del texto */
+    -fx-effect: dropshadow(gaussian, #4a90e2, 5, 0.5, 1, 1); /* Efecto de sombra azul */
+}
+
+/* Estilo para el RadioButton cuando está seleccionado */
+.radio-label:selected {
+    -fx-background-color: #4a90e2; /* Fondo azul */
+    -fx-border-color: #357abd; /* Borde azul oscuro */
+    -fx-effect: dropshadow(gaussian, #4a90e2, 5, 0.5, 1, 1); /* Sombra del mismo color cuando está seleccionado */
+}
+
+/* Estilo para el RadioButton cuando está enfocado */
+.radio-label:focused {
+    -fx-border-color: #357abd; /* Borde azul oscuro cuando está enfocado */
+    -fx-border-width: 2px; /* Grosor del borde cuando está enfocado */
+    -fx-effect: dropshadow(gaussian, #357abd, 5, 0.5, 1, 1); /* Sombra azul oscuro cuando está enfocado */
+}
+
+/* Estilo para el círculo interno del RadioButton */
+.radio-button .radio-indicator {
+    -fx-background-color: transparent; /* Fondo transparente */
+    -fx-border-color: #fff; /* Borde blanco */
+    -fx-border-width: 2px; /* Ancho del borde del círculo */
+    -fx-background-radius: 50%; /* Bordes redondeados */
+    -fx-pref-width: 22px; /* Tamaño del círculo */
+    -fx-pref-height: 22px; /* Tamaño del círculo */
+}
+
+/* Estilo para el círculo interno cuando está seleccionado */
+.radio-button:selected .radio-indicator {
+    -fx-background-color: #4a90e2; /* Fondo azul cuando está seleccionado */
+    -fx-border-color: #4a90e2; /* Borde azul cuando está seleccionado */
+}
+
+/* Estilo para el círculo interno cuando está enfocado */
+.radio-button:focused .radio-indicator {
+    -fx-border-color: #357abd; /* Borde azul oscuro cuando está enfocado */
+}
+
+.date-picker {
+    -fx-background-color: #E0E0E0; /* Fondo gris claro */
+    -fx-background-radius: 10px; /* Bordes redondeados */
+    -fx-padding: 5px; /* Espaciado interno */
+    -fx-border-color: transparent; /* Sin borde visible */
+    -fx-border-width: 0; /* Sin borde visible */
+}
+
+.date-picker .text-field {
+    -fx-background-color: #E0E0E0; /* Fondo gris claro */
+    -fx-text-fill: #000000; /* Texto negro */
+    -fx-border-color: transparent; /* Sin borde adicional en el campo de texto */
+    -fx-background-radius: 10px; /* Bordes redondeados */
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: #4a90e2; /* Fondo del botón de flecha azul */
+    -fx-background-radius: 50%; /* Bordes redondeados */
+    -fx-text-fill: #000000; /* Texto negro */
+    -fx-border-color: transparent; /* Sin borde visible */
+    -fx-border-width: 0; /* Sin borde visible */
+    -fx-pref-width: 16px; /* Tamaño reducido del botón de flecha */
+    -fx-pref-height: 16px; /* Tamaño reducido del botón de flecha */
+}
+
+.date-picker .arrow-button:hover {
+    -fx-background-color: #357abd; /* Fondo azul oscuro al pasar el ratón */
+}
+
+/* Estilo para los labels dentro del DatePicker */
+.date-picker .label {
+    -fx-text-fill: #000000; /* Texto negro */
+    -fx-font-size: 14px; /* Tamaño de fuente */
+    -fx-font-weight: bold; /* Negrita */
+    -fx-effect: dropshadow(gaussian, #4a90e2, 3, 0, 1, 1); /* Sombra azul */
+}
+
+.date-picker .month-year {
+    -fx-text-fill: #000000; /* Texto negro para meses y años */
+    -fx-font-size: 14px; /* Tamaño de fuente */
+    -fx-font-weight: bold; /* Negrita */
+    -fx-effect: dropshadow(gaussian, #4a90e2, 3, 0, 1, 1); /* Sombra azul */
+}
+
+
+.text-area {
+    -fx-control-inner-background: #E0E0E0; /* Fondo gris claro */
+    -fx-text-fill: #000000; /* Texto negro */
+    -fx-background-radius: 5px; /* Bordes redondeados */
+    -fx-border-color: #C0C0C0; /* Borde plateado */
+    -fx-border-width: 1px; /* Ancho del borde */
+}
+
+/* Estilo para la cabecera de la columna de la tabla */
+.table-view .column-header {
+    -fx-background-color: #B0C4DE; /* Color azul claro */
+    -fx-text-fill: #212121; /* Color de texto oscuro */
+    -fx-border-color: #C0C0C0; /* Color plateado para el borde */
+    -fx-border-width: 0 0 1px 0; /* Borde inferior */
+}
+
+/* Estilo para la cabecera de columna al pasar el ratón sobre ella */
+.table-view .column-header:hover {
+    -fx-background-color: #87CEFA; /* Color azul cielo */
+}
+
+/* Estilo para la fila del encabezado de la tabla */
+.table-view .column-header-background {
+    -fx-background-color: #E6E6FA; /* Color lavanda */
+}
+
+.label {
+    -fx-text-fill: #333333; /* Gris oscuro para el texto de los labels */
+    -fx-font-family: "Roboto"; /* Fuente moderna */
+    -fx-effect: dropshadow(gaussian, #4a90e2, 3, 0, 1, 1); /* Sombra azul */
+}
