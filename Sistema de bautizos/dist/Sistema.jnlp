@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="Sistema.jnlp">
+  <information>
+    <title>Sistema</title>
+    <vendor>Programación Reimil</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="Sistema.jar" size="3708020" download="eager" />
+    <jar href="lib\commons-codec-1.11.jar" size="335042" download="eager" />
+    <jar href="lib\commons-logging-1.2.jar" size="61829" download="eager" />
+    <jar href="lib\fluent-hc-4.5.14.jar" size="31574" download="eager" />
+    <jar href="lib\httpclient-4.5.14.jar" size="785639" download="eager" />
+    <jar href="lib\httpclient-cache-4.5.14.jar" size="164023" download="eager" />
+    <jar href="lib\httpclient-osgi-4.5.14.jar" size="1375939" download="eager" />
+    <jar href="lib\httpclient-win-4.5.14.jar" size="17857" download="eager" />
+    <jar href="lib\httpcore-4.4.16.jar" size="327891" download="eager" />
+    <jar href="lib\httpmime-4.5.14.jar" size="41727" download="eager" />
+    <jar href="lib\jna-4.5.2.jar" size="1484022" download="eager" />
+    <jar href="lib\jna-platform-4.5.2.jar" size="2327597" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="800" height="600" main-class="Controlador.Main"  name="Sistema" />
+  <update check="always"/>
+</jnlp>

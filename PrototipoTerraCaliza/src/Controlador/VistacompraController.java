@@ -5,11 +5,15 @@
 package Controlador;
 
 import Modelo.Movimiento;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,8 +29,19 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  * FXML Controller class
@@ -46,6 +61,8 @@ public class VistacompraController implements Initializable {
     public String Nombrecuenta = null;
     @FXML
     private Button btnregresar;
+    @FXML
+    private Button btnExportar;
     public TableView<Movimiento> Tablamovcompra;
     @FXML
     private TableColumn<Movimiento, LocalDate> colfecha;
@@ -67,8 +84,6 @@ public class VistacompraController implements Initializable {
     private TableColumn<Movimiento, Double> collsado;
     @FXML
     private Label labelgasto;
-    @FXML
-    private Label labelingreso;
     @FXML
     private TextField txtbuscar;
     @FXML
@@ -117,6 +132,8 @@ public class VistacompraController implements Initializable {
         coldebe.setCellValueFactory(cellData -> cellData.getValue().debeProperty().asObject());
         colhaber.setCellValueFactory(cellData -> cellData.getValue().haberProperty().asObject());
         collsado.setCellValueFactory(cellData -> cellData.getValue().saldoProperty().asObject());
+        
+        actualizarTotales();
 
            // Configurar las columnas de la tabla
         colfecha.setCellValueFactory(cellData -> cellData.getValue().fechaProperty());
@@ -237,6 +254,7 @@ collsado.setCellFactory(new Callback<TableColumn<Movimiento, Double>, TableCell<
                 controlador.setDivisas(divisas);
                 controlador.setNombrecuenta(Nombrecuenta);
   controlador.labelcuenta.setText(Nombrecuenta);
+  controlador.agregarTotales();
                 for (Movimiento x : transferencias) {
                     System.out.println(x.toString());
                 }
@@ -259,6 +277,11 @@ collsado.setCellFactory(new Callback<TableColumn<Movimiento, Double>, TableCell<
                 e.printStackTrace();
             }
 
+        });
+        
+        btnExportar.setOnAction(event-> {
+            
+            exportarAMovimientos();
         });
 
     }
@@ -320,6 +343,8 @@ collsado.setCellFactory(new Callback<TableColumn<Movimiento, Double>, TableCell<
                     || String.valueOf(movimiento.getHaber()).contains(lowerCaseFilter)
                     || String.valueOf(movimiento.getSaldo()).contains(lowerCaseFilter);
         });
+        
+        
 
         // Actualizar la TableView con los resultados filtrados
         Tablamovcompra.setItems(filteredData);
@@ -328,4 +353,169 @@ collsado.setCellFactory(new Callback<TableColumn<Movimiento, Double>, TableCell<
     public void setNombrecuenta(String Nombrecuenta) {
         this.Nombrecuenta = Nombrecuenta;
     }
+    
+    public void actualizarTotales() {
+        labelgasto.setText("Total Gastos: " + calcularTotalGastos());
+    }
+
+    private String calcularTotalGastos() {
+        Double totalGastos = 0.0;
+        for (Movimiento movimiento : compras) {
+            totalGastos += movimiento.getDebe(); // Suponiendo que 'debe' representa gastos
+        }
+        DecimalFormat df = new DecimalFormat("#,##0.00");
+        return df.format(totalGastos);
+    }
+    
+    public void ajustarAnchoColumnas() {
+        // Establecer un ancho fijo para las columnas "Código" y "Tipo de Transacción"
+        for (TableColumn<Movimiento, ?> column : Tablamovcompra.getColumns()) {
+            String columnName = column.getText(); // Obtener el texto del encabezado de la columna
+
+            // Establecer el ancho fijo para columnas específicas
+            if (columnName.equals("Código")) {
+                column.setPrefWidth(100); // Ancho fijo para la columna "Código"
+            } else if (columnName.equals("Tipo de Transacción")) {
+                column.setPrefWidth(150); // Ancho fijo para la columna "Tipo de Transacción"
+            } else {
+                // Para otras columnas, ajustar el ancho según el contenido
+                double maxWidth = 0;
+
+                // Iterar sobre cada fila en la tabla
+                for (int i = 0; i < Tablamovcompra.getItems().size(); i++) {
+                    Object cellValue = column.getCellData(i);
+                    String cellText = (cellValue != null) ? cellValue.toString() : "";
+
+                    // Calcular el ancho del texto del contenido
+                    double contentWidth = new Text(cellText).getLayoutBounds().getWidth();
+                    maxWidth = Math.max(maxWidth, contentWidth);
+                }
+
+                // También considerar el ancho del encabezado para las columnas ajustables
+                double headerWidth = new Text(columnName).getLayoutBounds().getWidth();
+                maxWidth = Math.max(maxWidth, headerWidth); // Asegurarse de que el encabezado se ajuste
+
+                // Ajustar el ancho de la columna
+                column.setPrefWidth(maxWidth + 20); // Añadir un margen extra
+            }
+        }
+    }
+    
+    private void exportarAMovimientos() {
+    Workbook workbook = new XSSFWorkbook();
+    Sheet sheet = workbook.createSheet("Movimientos");
+
+    // Crear un estilo para el encabezado
+    CellStyle headerStyle = workbook.createCellStyle();
+    headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex()); // Color de fondo gris
+    headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND); // Establecer el patrón de relleno
+
+    // Crear la fila de encabezado
+    Row headerRow = sheet.createRow(0);
+    String[] columnHeaders = {"Fecha", "Código", "Tipo de Transacción", "Tipo de Operación", "Descripción", "Referencia", "Debe", "Haber", "Saldo"};
+    for (int i = 0; i < columnHeaders.length; i++) {
+        Cell cell = headerRow.createCell(i);
+        cell.setCellValue(columnHeaders[i]);
+        cell.setCellStyle(headerStyle); // Aplicar el estilo de encabezado
+    }
+
+    // Crear un objeto DecimalFormatSymbols para la convención venezolana
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+    symbols.setGroupingSeparator('.'); // Establecer el punto como separador de miles
+    symbols.setDecimalSeparator(',');   // Establecer la coma como separador decimal
+
+    // Crear un objeto DecimalFormat con los símbolos personalizados
+    DecimalFormat df = new DecimalFormat("#,##0.00", symbols);
+
+    // Agregar los movimientos
+    int rowNum = 1;
+    for (Movimiento movimiento : compras) {
+        Row row = sheet.createRow(rowNum++);
+        row.createCell(0).setCellValue(movimiento.getFecha().toString());
+        row.createCell(1).setCellValue(movimiento.getCodigo());
+        row.createCell(2).setCellValue(movimiento.getTipot());
+        row.createCell(3).setCellValue(movimiento.getTipoO());
+        row.createCell(4).setCellValue(movimiento.getDescripcion());
+        row.createCell(5).setCellValue(movimiento.getReferencia());
+
+        // Formatear el "Debe" y "Haber"
+        double debe = movimiento.getDebe();
+        double haber = movimiento.getHaber();
+
+        // Colocar el signo negativo en "Debe" y positivo en "Haber"
+        if (debe != 0) {
+            row.createCell(6).setCellValue(debe < 0 ? df.format(debe) : df.format(-debe)); // Asegurarse de que sea negativo
+        } else {
+            row.createCell(6).setCellValue(0); // No mostrar nada si es 0
+        }
+
+        if (haber != 0) {
+            row.createCell(7).setCellValue(df.format(haber)); // Mostrar el valor positivo
+        } else {
+            row.createCell(7).setCellValue(0); // No mostrar nada si es 0
+        }
+
+        row.createCell(8).setCellValue(df.format(movimiento.getSaldo())); // Formatear el saldo
+    }
+
+    // Calcular totales
+    double totalDebe = compras.stream().mapToDouble(Movimiento::getDebe).sum();
+    double totalHaber = compras.stream().mapToDouble(Movimiento::getHaber).sum();
+    double totalSaldo = compras.stream().mapToDouble(Movimiento::getSaldo).sum();
+
+    // Agregar filas vacías para separación
+    for (int i = 0; i < 3; i++) {
+        sheet.createRow(rowNum++); // Crear 3 filas vacías
+    }
+
+    // Crear un estilo para la fila de totales
+    CellStyle totalStyle = workbook.createCellStyle();
+    Font font = workbook.createFont();
+    font.setBold(true); // Hacer el texto en negrita
+    totalStyle.setFont(font);
+
+    // Establecer el color de fondo amarillo
+    totalStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+    totalStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND); // Establecer el patrón de relleno
+
+    // Agregar una fila para los totales
+    Row totalRow = sheet.createRow(rowNum);
+    totalRow.createCell(5).setCellValue("Totales");
+    totalRow.createCell(6).setCellValue(df.format(totalDebe < 0 ? totalDebe : -totalDebe)); // Asegurarse de que el total de "Debe" sea negativo
+    totalRow.createCell(7).setCellValue(df.format(totalHaber)); // Mostrar el total de "Haber"
+    totalRow.createCell(8).setCellValue(df.format(totalSaldo)); // Formatear el total de saldo
+
+    // Aplicar el estilo de totales a las celdas correspondientes
+    for (int i = 5; i <= 8; i++) {
+        totalRow.getCell(i).setCellStyle(totalStyle);
+    }
+
+    // Ajustar la altura de la fila de totales
+    totalRow.setHeightInPoints(20); // Ajustar la altura de la fila (puedes cambiar el valor según sea necesario)
+
+    // Ajustar el ancho de las columnas automáticamente
+    for (int i = 0; i < columnHeaders.length; i++) {
+        sheet.autoSizeColumn(i);
+    }
+
+    // Guardar el archivo
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Guardar archivo Excel");
+    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+    File file = fileChooser.showSaveDialog(btnExportar.getScene().getWindow());
+    if (file != null) {
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+            workbook.write(outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    try {
+        workbook.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
 }

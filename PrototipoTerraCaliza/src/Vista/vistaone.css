@@ -1,5 +1,127 @@
+.anchorpane{
+    -fx-font-family: Poppins;
+}
+
+.center{
+    -fx-alignment: CENTER;
+}
+
+.fondo_menu{
+    -fx-background-color: #333533;
+    -fx-background-radius: 0 10px 10px 0;
+}
+
+.boton1 {
+    /*-fx-padding: 16px 33px;  Padding superior/inferior y derecho/izquierdo */
+/*    -fx-pref-width: 190px; */
+    -fx-background-color: #ffd100; /* Color de fondo */
+    -fx-border-radius: 9px; /* Bordes redondeados */
+    -fx-background-radius: 9px; /* Bordes redondeados del fondo */
+    -fx-border-color: transparent; /* Sin borde */
+    -fx-font-family: Poppins; /* Usar la misma fuente que el contenedor */
+    -fx-font-weight: bold;
+    -fx-text-align: center; /* Alinear texto al centro */
+    -fx-align-content: LEFT;
+    -fx-cursor: hand; /* Cambiar el cursor a mano */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 5, 0, 0, 1); /* Sombra suave */
+}
+
+.boton1:hover {
+    -fx-effect: dropshadow(gaussian, #ffee32, 16, 0, 2, 2); /* Sombra al pasar el mouse */
+}
+
+.boton1:pressed {
+    -fx-scale-x: 0.97; /* Escala horizontal */
+    -fx-scale-y: 0.97; /* Escala vertical */
+    -fx-effect: dropshadow(gaussian, #ffee32, 6, 0, 2, 2); /* Sombra al presionar */
+}
+
+.fondo_general{
+    -fx-background-color: #202020;
+}
+
+.table-view {
+    -fx-background-color: #2d2a32; /* Color de fondo de la tabla */
+    -fx-border-color: #000814; /* Color del borde de la tabla */
+    -fx-border-width: 1px; /* Ancho del borde de la tabla */
+}
+
+/* Estilo para las filas de la tabla */
+.table-view .table-row-cell {
+    -fx-background-color:  #2d2a32; /* Color de fondo de las filas */
+    -fx-border-color: transparent; /* Sin borde para las filas */
+    -fx-text-fill: white;
+}
+
+/* Estilo para las filas seleccionadas */
+.table-view .table-row-cell:selected {
+    -fx-background-color: #d5f365; /* Color de fondo para filas seleccionadas */
+    -fx-text-fill: white;
+}
+
+/* Estilo para el encabezado de la tabla */
+.table-view .column-header {
+    -fx-background-color: #ffd100; /* Color de fondo del encabezado */
+    -fx-text-fill: white; /* Color del texto del encabezado */
+    -fx-font-weight: bold; /* Negrita para el texto del encabezado */
+}
+
+/* Estilo para las celdas del encabezado */
+.table-view .table-header-cell {
+    -fx-background-color: #4CAF50; /* Color de fondo del encabezado */
+    -fx-text-fill: white; /* Color del texto del encabezado */
+    -fx-padding: 10px; /* Espaciado interno */
+}
+
+/* Estilo para las celdas de la tabla */
+.table-view .table-cell {
+    -fx-padding: 10px; /* Espaciado interno de las celdas */
+    -fx-border-color: #333533; /* Color del borde de las celdas */
+    -fx-border-width: 0 0 1px 0.5px; /* Borde inferior para separación */
+    -fx-text-fill: white;
+}
+
+/* Estilo para celdas en foco */
+.table-view .table-cell:focused {
+    -fx-background-color: #e0e0e0; /* Color de fondo para celdas en foco */
+}
+
+/* Estilo para celdas seleccionadas */
+.table-view .table-cell:selected {
+    -fx-background-color: #d5f365; /* Color de fondo para celdas seleccionadas */
+    -fx-text-fill: white; /* Color del texto para celdas seleccionadas */
+}
+
+.table-view .scroll-bar:vertical {
+    -fx-pref-width: 0; /* Ancho preferido de la barra de desplazamiento */
+    -fx-opacity: 0; /* Hacerla invisible */
+}
+
+/* Ocultar la barra de desplazamiento horizontal */
+.table-view .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-pref-height: 8; /* Altura preferida de la barra de desplazamiento */
+    -fx-opacity: 1; /* Hacerla invisible */
+}
+
+.table-view .scroll-bar:horizontal .thumb {
+    -fx-background-color: #ffd100; /* Color del "thumb" (parte que se arrastra) */
+}
 
 
-.mainFxmlClass {
+.textInput {
+    -fx-background-color: #252525; /* Color de fondo del TextField */
+    -fx-text-fill: #e8e8e8; /* Color del texto */
+    -fx-border-color: transparent; /* Sin borde */
+    -fx-border-radius: 5px 5px 0 0; /* Bordes redondeados */
+    -fx-padding: 12px; /* Espaciado interno */
+    -fx-font-size: 14px; /* Tamaño de fuente */
+    -fx-font-weight: 500; /* Negrita */
+    -fx-effect: dropshadow(gaussian, rgba(35, 35, 35, 0.3), 5, 0, 0, 2); /* Sombra */
+}
 
+.textInput:hover,
+.textInput:focused {
+    -fx-border-color: transparent transparent #ffd100 transparent; /* Solo borde inferior amarillo */
+    -fx-border-width: 0 0 2px 0; /* Solo borde inferior */
 }

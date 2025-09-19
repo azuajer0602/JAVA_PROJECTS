@@ -1,62 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="575.0" prefWidth="1031.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.VistacreditoController">
+<AnchorPane id="AnchorPane" prefHeight="575.0" prefWidth="1031.0" styleClass="fondo_general" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.VistacreditoController">
    <stylesheets>
       <URL value="@vistatransferencias.css" />
    </stylesheets>
    <children>
-      <Button fx:id="btnregresar" layoutX="41.0" layoutY="263.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="142.0" text="Regresar" />
-      <TableView fx:id="Tablamovcredito" layoutX="226.0" layoutY="111.0" prefHeight="404.0" prefWidth="711.0">
-         <columns>
-            <TableColumn fx:id="colfecha" prefWidth="75.0" text="Fecha" />
-            <TableColumn fx:id="colcodigo" prefWidth="75.0" text="Codigo" />
-            <TableColumn fx:id="coltipotra" prefWidth="85.60003662109375" text="Tipo Transaccion" />
-            <TableColumn fx:id="coltipoopera" prefWidth="91.99993896484375" text="Tipo operacion" />
-            <TableColumn fx:id="coldescripcion" prefWidth="48.7999267578125" text="descripcion" />
-            <TableColumn fx:id="colreferencia" prefWidth="118.4000244140625" text="Referencia" />
-            <TableColumn fx:id="coldebe" prefWidth="72.0" text="debe" />
-            <TableColumn fx:id="colhaber" prefWidth="57.60003662109375" text="haber" />
-            <TableColumn fx:id="collsado" prefWidth="88.0001220703125" text="Saldo" />
-         </columns>
-      </TableView>
-      <Label layoutX="41.0" layoutY="22.0" prefHeight="54.0" prefWidth="328.0" text="Credito Inmediato">
-         <font>
-            <Font size="37.0" />
-         </font>
-      </Label>
-      <Label fx:id="labelgasto" layoutX="397.0" layoutY="14.0" prefHeight="54.0" prefWidth="280.0" text="Total Gasto:">
-         <font>
-            <Font size="23.0" />
-         </font>
-      </Label>
-      <Label fx:id="labelingreso" layoutX="397.0" layoutY="58.0" prefHeight="54.0" prefWidth="280.0" text="Total Ingreso:">
-         <font>
-            <Font size="23.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txtbuscar" layoutX="719.0" layoutY="47.0" prefHeight="38.0" prefWidth="206.0" promptText="Buscar">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </TextField>
-      <Label layoutX="621.0" layoutY="47.0" prefHeight="38.0" prefWidth="94.0" text="Buscar :">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Label>
-      <Label fx:id="labelcuenta" layoutX="472.0" layoutY="513.0" prefHeight="38.0" prefWidth="435.0" text="Cuenta">
-         <font>
-            <Font size="27.0" />
-         </font>
-      </Label>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <left>
+            <VBox prefHeight="200.0" prefWidth="210.0" styleClass="fondo_menu" BorderPane.alignment="CENTER">
+               <children>
+                  <Label prefHeight="54.0" prefWidth="328.0" styleClass="center" text="Credito Inmediato" textFill="#ffd100">
+                     <font>
+                        <Font name="Poppins SemiBold" size="21.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </Label>
+                  <VBox prefHeight="491.0" prefWidth="100.0" styleClass="center">
+                     <children>
+                        <Button fx:id="btnregresar" mnemonicParsing="false" prefHeight="45.0" prefWidth="142.0" styleClass="boton1" text="Regresar">
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@img/back-icon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </left>
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" styleClass="fondo_general" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="400.0">
+                           <children>
+                              <Label fx:id="labelgasto" prefHeight="54.0" text="Total Gasto:" textFill="WHITE">
+                                 <font>
+                                    <Font name="Poppins SemiBold" size="23.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelingreso" prefHeight="54.0" text="Total Ingreso:" textFill="WHITE">
+                                 <font>
+                                    <Font name="Poppins SemiBold" size="23.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </VBox>
+                        <HBox prefHeight="100.0" prefWidth="350.0" styleClass="center">
+                           <children>
+                              <Label text="Buscar :" textFill="WHITE">
+                                 <font>
+                                    <Font name="Poppins Bold" size="26.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="txtbuscar" prefHeight="38.0" prefWidth="206.0" promptText="Buscar" styleClass="textInput">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                           <HBox.margin>
+                              <Insets left="45.0" />
+                           </HBox.margin>
+                        </HBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <TableView fx:id="Tablamovcredito" prefHeight="404.0" prefWidth="787.0">
+                           <columns>
+                              <TableColumn fx:id="colfecha" prefWidth="75.0" text="Fecha" />
+                              <TableColumn fx:id="colcodigo" prefWidth="75.0" text="Codigo" />
+                              <TableColumn fx:id="coltipotra" prefWidth="115.96176147460938" text="Tipo Transaccion" />
+                              <TableColumn fx:id="coltipoopera" prefWidth="93.29400634765625" text="Tipo operacion" />
+                              <TableColumn fx:id="coldescripcion" prefWidth="94.319580078125" text="descripcion" />
+                              <TableColumn fx:id="colreferencia" prefWidth="109.3004150390625" text="Referencia" />
+                              <TableColumn fx:id="coldebe" prefWidth="74.49359130859375" text="debe" />
+                              <TableColumn fx:id="colhaber" prefWidth="67.00640869140625" text="haber" />
+                              <TableColumn fx:id="collsado" prefWidth="84.5955810546875" text="Saldo" />
+                           </columns>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </TableView>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="15.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" styleClass="center">
+                     <children>
+                        <Label fx:id="labelcuenta" prefHeight="38.0" prefWidth="610.0" styleClass="center" text="Cuenta" textFill="WHITE">
+                           <font>
+                              <Font name="Poppins Medium" size="24.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="btnExportar" mnemonicParsing="false" prefHeight="45.0" prefWidth="142.0" styleClass="boton1" text="Exportar">
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@img/export-icon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
    </children>
 </AnchorPane>

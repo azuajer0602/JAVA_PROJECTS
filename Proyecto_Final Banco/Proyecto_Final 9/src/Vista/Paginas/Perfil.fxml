@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1080.0" styleClass="fondo" stylesheets="@perfil.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.PerfilController">
+   <children>
+      <VBox layoutX="590.0" layoutY="93.0" prefHeight="720.0" prefWidth="1080.0" styleClass="fondo" stylesheets="@perfil.css" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefHeight="700.0" prefWidth="140.0" styleClass="textos_contenedor">
+               <children>
+                  <VBox prefHeight="50.0" prefWidth="100.0" styleClass="txt_center">
+                     <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="PERFIL">
+                           <font>
+                              <Font name="Poppins ExtraBold" size="36.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="vbFormRegistro" prefHeight="610.0" prefWidth="1040.0">
+                     <children>
+                        <HBox prefHeight="14.0" prefWidth="560.0" styleClass="bx_center">
+                           <children>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Foto de perfil:">
+                                 <font>
+                                    <Font name="Poppins Black" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Text>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="560.0" styleClass="bx_center">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                           <children>
+                              <Button fx:id="btnPerfil" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="av">
+                                 <graphic>
+                                    <ImageView fx:id="imgPerfil" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="20.0" prefWidth="560.0">
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="centrador" width="300.0" />
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre:">
+                                 <font>
+                                    <Font name="Poppins Black" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="178.0" />
+                                 </HBox.margin>
+                              </Text>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Apellido:">
+                                 <font>
+                                    <Font name="Poppins Black" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="50.0">
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="centrador" width="300.0" />
+                              <TextField fx:id="txtNombre" promptText="Nombre" styleClass="field_deshabilitado">
+                                 <HBox.margin>
+                                    <Insets right="40.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <TextField fx:id="txtApellido" promptText="Apellido" styleClass="field_deshabilitado" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="14.0" prefWidth="560.0">
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="centrador" width="300.0" />
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Sexo:">
+                                 <font>
+                                    <Font name="Poppins Black" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="200.0" />
+                                 </HBox.margin>
+                              </Text>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Dirección:">
+                                 <font>
+                                    <Font name="Poppins Black" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="50.0" prefWidth="560.0">
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="centrador" width="300.0" />
+                              <Label fx:id="lbSexo" prefHeight="50.0" prefWidth="200.0" styleClass="field_deshabilitado" text="sexo">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="-210.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <ToggleButton fx:id="tbtnMasculino" mnemonicParsing="false" styleClass="sex_boton2" text="Masculino">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </ToggleButton>
+                              <Line fx:id="lnDivisionSexo" endX="-100.0" endY="50.0" startX="-100.0" stroke="#1b1c24">
+                                 <HBox.margin>
+                                    <Insets bottom="-1.0" />
+                                 </HBox.margin>
+                              </Line>
+                              <ToggleButton fx:id="tbtnFemenino" mnemonicParsing="false" styleClass="sex_boton" text="Femenino" />
+                              <TextField fx:id="txtDireccion" promptText="Dirección" styleClass="field_deshabilitado">
+                                 <HBox.margin>
+                                    <Insets left="40.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="14.0" prefWidth="560.0">
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="centrador" width="300.0" />
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Cedula:">
+                                 <font>
+                                    <Font name="Poppins Black" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="180.0" />
+                                 </HBox.margin>
+                              </Text>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha de nacimiento:">
+                                 <font>
+                                    <Font name="Poppins Black" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="50.0" prefWidth="560.0">
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="centrador" width="300.0" />
+                              <TextField fx:id="txtCedula" promptText="Cedula" styleClass="field_deshabilitado">
+                                 <font>
+                                    <Font name="Poppins ExtraBold" size="13.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </TextField>
+                              <DatePicker fx:id="dtpFechaNacimiento" editable="false" prefHeight="36.0" prefWidth="186.0" promptText="Fecha" styleClass="date_deshabilitado">
+                                 <HBox.margin>
+                                    <Insets left="40.0" />
+                                 </HBox.margin>
+                              </DatePicker>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="14.0" prefWidth="560.0">
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="centrador" width="300.0" />
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Usuario:">
+                                 <font>
+                                    <Font name="Poppins Black" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="180.0" />
+                                 </HBox.margin>
+                              </Text>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña:">
+                                 <font>
+                                    <Font name="Poppins Black" size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="50.0" prefWidth="560.0">
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="centrador" width="300.0" />
+                              <TextField fx:id="txtUsuario" promptText="Usuario" styleClass="field_deshabilitado">
+                                 <font>
+                                    <Font name="Poppins ExtraBold" size="13.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </TextField>
+                              <TextField fx:id="txtContrasenaShow" promptText="Contraseña" styleClass="field_deshabilitado">
+                                 <HBox.margin>
+                                    <Insets left="40.0" right="-240.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <PasswordField fx:id="txtContraseña" promptText="Contraseña" styleClass="field_deshabilitado">
+                                 <HBox.margin>
+                                    <Insets left="40.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Poppins ExtraBold" size="13.0" />
+                                 </font>
+                              </PasswordField>
+                              <ToggleButton fx:id="tbtnHideContrasena" mnemonicParsing="false" styleClass="hide_boton">
+                                 <HBox.margin>
+                                    <Insets left="10.0" top="6.0" />
+                                 </HBox.margin>
+                                 <graphic>
+                                    <FontAwesomeIcon fill="WHITE" glyphName="EYE" size="20" styleClass="hide_boton" wrappingWidth="20.4033203125" />
+                                 </graphic>
+                              </ToggleButton>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="14.0" prefWidth="560.0" styleClass="bx_center">
+                           <children>
+                              <Label fx:id="lbError" text="ERROR" textFill="#da0b0b">
+                                 <font>
+                                    <Font name="Poppins ExtraBold" size="14.0" />
+                                 </font>
+                                 <graphic>
+                                    <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../imagenes/error%20icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <HBox prefHeight="60.0" prefWidth="560.0" style="-fx-alignment: center;">
+                     <children>
+                        <Button fx:id="btnAceptar" mnemonicParsing="false" prefWidth="157.0" styleClass="editar_boton" stylesheets="@perfil.css" text="ACEPTAR" />
+                        <Button fx:id="btnEditar" mnemonicParsing="false" prefWidth="157.0" styleClass="editar_boton" stylesheets="@perfil.css" text="EDITAR">
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="btnCancelar" mnemonicParsing="false" styleClass="cancel_boton" text="CANCELAR" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </VBox.margin>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

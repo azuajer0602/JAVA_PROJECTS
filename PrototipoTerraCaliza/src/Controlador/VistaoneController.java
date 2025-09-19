@@ -37,6 +37,21 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.util.Callback;
+import javafx.util.Duration;
+import javafx.scene.effect.DropShadow;
+import javafx.animation.ScaleTransition;
+import javafx.scene.text.Text;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.stage.FileChooser;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 public class VistaoneController implements Initializable {
 
@@ -63,14 +78,14 @@ public class VistaoneController implements Initializable {
     @FXML
     private TableColumn<Movimiento, Double> collsado;
 
-      private ObservableList<Movimiento> movimientos;
-      private ObservableList<Movimiento> transferencias;
-      private ObservableList<Movimiento> pagomovil;
-      private ObservableList<Movimiento> compras;
-      private ObservableList<Movimiento> comisiones;
-      private ObservableList<Movimiento> nomina;
-      private ObservableList<Movimiento> creditos;
-      private ObservableList<Movimiento> divisas;
+    private ObservableList<Movimiento> movimientos;
+    private ObservableList<Movimiento> transferencias;
+    private ObservableList<Movimiento> pagomovil;
+    private ObservableList<Movimiento> compras;
+    private ObservableList<Movimiento> comisiones;
+    private ObservableList<Movimiento> nomina;
+    private ObservableList<Movimiento> creditos;
+    private ObservableList<Movimiento> divisas;
     @FXML
     private Button btntransferencias;
     @FXML
@@ -97,15 +112,18 @@ public class VistaoneController implements Initializable {
     private Label labelegresos;
     @FXML
     private Label labelsaldo;
-    
-    public  String Nombrecuenta = null;
+
+    public String Nombrecuenta = null;
     @FXML
     public Label labelcuenta;
+    
+//    private Workbook workbook;
+//    private CellStyle headerStyle;
 
-    
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         movimientos = FXCollections.observableArrayList(); // Inicializar la lista
         transferencias = FXCollections.observableArrayList(); // Inicializar la lista
         pagomovil = FXCollections.observableArrayList(); // Inicializar la lista
@@ -113,121 +131,118 @@ public class VistaoneController implements Initializable {
         comisiones = FXCollections.observableArrayList(); // Inicializar la lista
         nomina = FXCollections.observableArrayList(); // Inicializar la lista
         creditos = FXCollections.observableArrayList(); // Inicializar la lista
-        divisas= FXCollections.observableArrayList(); // Inicializar la lista
+        divisas = FXCollections.observableArrayList(); // Inicializar la lista
 
-                
         Tablamov.setItems(movimientos); // Vincular la lista a la TableView
- // Configurar las columnas de la tabla
-    colfecha.setCellValueFactory(cellData -> cellData.getValue().fechaProperty());
-    
-    // Configurar el CellFactory para aplicar el formato de fecha
-    colfecha.setCellFactory(col -> new TableCell<Movimiento, LocalDate>() {
-        private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        // Configurar las columnas de la tabla
+        
+        
 
-        @Override
-        protected void updateItem(LocalDate item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty || item == null) {
-                setText(null);
-            } else {
-                setText(item.format(formatter)); // Formatear la fecha
-            }
-        }
-    });
-      // Configurar las columnas de la tabla
-    colfecha.setCellValueFactory(cellData -> cellData.getValue().fechaProperty());
-    colcodigo.setCellValueFactory(cellData -> cellData.getValue().codigoProperty().asObject());
-    coltipotra.setCellValueFactory(cellData -> cellData.getValue().tipotProperty());
-    coltipoopera.setCellValueFactory(cellData -> cellData.getValue().tipoOProperty());
-    coldescripcion.setCellValueFactory(cellData -> cellData.getValue().descripcionProperty());
-     colreferencia.setCellValueFactory(cellData -> cellData.getValue().referenciaProperty().asObject());
-    coldebe.setCellValueFactory(cellData -> cellData.getValue().debeProperty().asObject());
-    colhaber.setCellValueFactory(cellData -> cellData.getValue().haberProperty().asObject());
-    collsado.setCellValueFactory(cellData -> cellData.getValue().saldoProperty().asObject());
+        colfecha.setCellValueFactory(cellData -> cellData.getValue().fechaProperty());
 
-    
-    
-    
-// Configurar la columna de debe
-coldebe.setCellValueFactory(cellData -> cellData.getValue().debeProperty().asObject());
-coldebe.setCellFactory(new Callback<TableColumn<Movimiento, Double>, TableCell<Movimiento, Double>>() {
-    private final DecimalFormat df = new DecimalFormat("#,##0.00;'-'#,##0.00"); // Formato para mostrar negativos con signo de resta
+        // Configurar el CellFactory para aplicar el formato de fecha
+        colfecha.setCellFactory(col -> new TableCell<Movimiento, LocalDate>() {
+            private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    @Override
-    public TableCell<Movimiento, Double> call(TableColumn<Movimiento, Double> param) {
-        return new TableCell<Movimiento, Double>() {
             @Override
-            protected void updateItem(Double item, boolean empty) {
+            protected void updateItem(LocalDate item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    // Si el valor es cero, mostrar "0.00" sin signo
-                    if (item == 0) {
-                        setText(df.format(0)); // Mostrar cero sin signo
-                    } else {
-                        setText(df.format(-Math.abs(item))); // Formatear el número como negativo
-                    }
+                    setText(item.format(formatter)); // Formatear la fecha
                 }
             }
-        };
-    }
-});
+        });
+        // Configurar las columnas de la tabla
+        colfecha.setCellValueFactory(cellData -> cellData.getValue().fechaProperty());
+        colcodigo.setCellValueFactory(cellData -> cellData.getValue().codigoProperty().asObject());
+        coltipotra.setCellValueFactory(cellData -> cellData.getValue().tipotProperty());
+        coltipoopera.setCellValueFactory(cellData -> cellData.getValue().tipoOProperty());
+        coldescripcion.setCellValueFactory(cellData -> cellData.getValue().descripcionProperty());
+        colreferencia.setCellValueFactory(cellData -> cellData.getValue().referenciaProperty().asObject());
+        coldebe.setCellValueFactory(cellData -> cellData.getValue().debeProperty().asObject());
+        colhaber.setCellValueFactory(cellData -> cellData.getValue().haberProperty().asObject());
+        collsado.setCellValueFactory(cellData -> cellData.getValue().saldoProperty().asObject());
+
+// Configurar la columna de debe
+        coldebe.setCellValueFactory(cellData -> cellData.getValue().debeProperty().asObject());
+        coldebe.setCellFactory(new Callback<TableColumn<Movimiento, Double>, TableCell<Movimiento, Double>>() {
+            private final DecimalFormat df = new DecimalFormat("#,##0.00;'-'#,##0.00"); // Formato para mostrar negativos con signo de resta
+
+            @Override
+            public TableCell<Movimiento, Double> call(TableColumn<Movimiento, Double> param) {
+                return new TableCell<Movimiento, Double>() {
+                    @Override
+                    protected void updateItem(Double item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                        } else {
+                            // Si el valor es cero, mostrar "0.00" sin signo
+                            if (item == 0) {
+                                setText(df.format(0)); // Mostrar cero sin signo
+                            } else {
+                                setText(df.format(-Math.abs(item))); // Formatear el número como negativo
+                            }
+                        }
+                    }
+                };
+            }
+        });
 
 // Configurar la columna de haber
-colhaber.setCellValueFactory(cellData -> cellData.getValue().haberProperty().asObject());
-colhaber.setCellFactory(new Callback<TableColumn<Movimiento, Double>, TableCell<Movimiento, Double>>() {
-    private final DecimalFormat df = new DecimalFormat("+#,##0.00;'-'#,##0.00"); // Formato para mostrar positivos con signo de suma
+        colhaber.setCellValueFactory(cellData -> cellData.getValue().haberProperty().asObject());
+        colhaber.setCellFactory(new Callback<TableColumn<Movimiento, Double>, TableCell<Movimiento, Double>>() {
+            private final DecimalFormat df = new DecimalFormat("+#,##0.00;'-'#,##0.00"); // Formato para mostrar positivos con signo de suma
 
-    @Override
-    public TableCell<Movimiento, Double> call(TableColumn<Movimiento, Double> param) {
-        return new TableCell<Movimiento, Double>() {
             @Override
-            protected void updateItem(Double item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    // Si el valor es cero, mostrar "0.00" sin signo
-                    if (item.equals(0.0)) {
-                        setText("0.00"); // Mostrar cero sin signo
-                    } else {
-                        // Mostrar el valor normalmente, asegurando que sea positivo
-                        setText(df.format(item)); // Formatear el número según el formato definido
+            public TableCell<Movimiento, Double> call(TableColumn<Movimiento, Double> param) {
+                return new TableCell<Movimiento, Double>() {
+                    @Override
+                    protected void updateItem(Double item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                        } else {
+                            // Si el valor es cero, mostrar "0.00" sin signo
+                            if (item.equals(0.0)) {
+                                setText("0.00"); // Mostrar cero sin signo
+                            } else {
+                                // Mostrar el valor normalmente, asegurando que sea positivo
+                                setText(df.format(item)); // Formatear el número según el formato definido
+                            }
+                        }
                     }
-                }
+                };
             }
-        };
-    }
-});
+        });
 // Configurar la columna de saldo (sin cambios en el formato)
-collsado.setCellValueFactory(cellData -> cellData.getValue().saldoProperty().asObject());
-collsado.setCellFactory(new Callback<TableColumn<Movimiento, Double>, TableCell<Movimiento, Double>>() {
-    private final DecimalFormat df = new DecimalFormat("#,##0.00"); // Formato estándar
+        collsado.setCellValueFactory(cellData -> cellData.getValue().saldoProperty().asObject());
+        collsado.setCellFactory(new Callback<TableColumn<Movimiento, Double>, TableCell<Movimiento, Double>>() {
+            private final DecimalFormat df = new DecimalFormat("#,##0.00"); // Formato estándar
 
-    @Override
-    public TableCell<Movimiento, Double> call(TableColumn<Movimiento, Double> param) {
-        return new TableCell<Movimiento, Double>() {
             @Override
-            protected void updateItem(Double item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(df.format(item)); // Formatear el número normalmente
-                }
+            public TableCell<Movimiento, Double> call(TableColumn<Movimiento, Double> param) {
+                return new TableCell<Movimiento, Double>() {
+                    @Override
+                    protected void updateItem(Double item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                        } else {
+                            setText(df.format(item)); // Formatear el número normalmente
+                        }
+                    }
+                };
             }
-        };
-    }
-});
-    
-    
-    
+        });
+
 //el boton que abre el archivo de excel
         Openbutton.setOnAction(event -> {
             try {
                 openFile();
-                
+
                 Agregartransferencias();
                 Agregarpagomovil();
                 AgregarCompras();
@@ -235,409 +250,448 @@ collsado.setCellFactory(new Callback<TableColumn<Movimiento, Double>, TableCell<
                 AgregarNomina();
                 AgregarCredito();
                 AgregarDivisas();
-                for(Movimiento c : pagomovil){System.out.println(c.toString());}
+                for (Movimiento c : pagomovil) {
+                    System.out.println(c.toString());
+                }
+                labelsaldo.setText("Saldo disponible: " + Saldo());
+                labelingresos.setText("Total Ingresos: " + Totalingresos());
+                labelegresos.setText("Total Egresos: " + Totalegresos());
+                ajustarAnchoColumnas(Tablamov);
             } catch (IOException ex) {
                 Logger.getLogger(VistaoneController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
+
         //Boton que abre la seccion de transferencias.
-        btntransferencias.setOnAction(event ->{
-       if(transferencias.isEmpty()){
-          Alert alerta = new Alert(AlertType.INFORMATION);
-        alerta.setTitle("Informacion");
-        alerta.setHeaderText("Informacion");
-        alerta.setContentText("No se encontraron movimientos de tipo Transferencias en el archivo");
-        alerta.showAndWait();
-       }else{
-       
-            
-            try {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Vistatransferencias.fxml"));
-    Parent root = loader.load();
-    VistatransferenciasController controller = loader.getController();
-  
-        controller.setNombrecuenta(Nombrecuenta);
+        btntransferencias.setOnAction(event -> {
+            if (transferencias.isEmpty()) {
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Informacion");
+                alerta.setHeaderText("Informacion");
+                alerta.setContentText("No se encontraron movimientos de tipo Transferencias en el archivo");
+                alerta.showAndWait();
+            } else {
+
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Vistatransferencias.fxml"));
+                    Parent root = loader.load();
+                    VistatransferenciasController controller = loader.getController();
+
+                    controller.setNombrecuenta(Nombrecuenta);
 //Setteo todas las listas para poder trabajar la navegabilidad entre ventanas 
-    controller.setMovimientos(movimientos);
-    controller.Tablamov.setItems(transferencias);// la tabla de la seccion transferencias.
-    controller.setTransferencias(transferencias);
-    controller.setPagomovil(pagomovil);
-    controller.setCompras(compras);
-    controller.setComisiones(comisiones);
-    controller.setNomina(nomina);
-    controller.setCreditos(creditos);
-    controller.setDivisas(divisas);
-   
-    controller.labelcuenta.setText(Nombrecuenta);
-    for(Movimiento c : pagomovil){System.out.println("listo el pago movil"+c.toString());}
-   
-    if (controller != null) {
-        System.out.println("Controlador VistatransferenciasController cargado correctamente.");
-    } else {
-        System.out.println("Error al cargar el controlador de Vistatransferencias.");
-    }
+                    controller.setMovimientos(movimientos);
+                    controller.Tablamov.setItems(transferencias);// la tabla de la seccion transferencias.
+                    controller.setTransferencias(transferencias);
+                    controller.setPagomovil(pagomovil);
+                    controller.setCompras(compras);
+                    controller.setComisiones(comisiones);
+                    controller.setNomina(nomina);
+                    controller.setCreditos(creditos);
+                    controller.setDivisas(divisas);
 
-    Scene scene = new Scene(root);
-    Stage stage = new Stage();
-    stage.setScene(scene);
-    stage.show();
+                    controller.labelcuenta.setText(Nombrecuenta);
+                    controller.actualizarTotales();
+                    controller.ajustarAnchoColumnas();
+                    for (Movimiento c : pagomovil) {
+                        System.out.println("listo el pago movil" + c.toString());
+                    }
 
-    // Cierra la ventana actual
-    Stage myStage = (Stage) btntransferencias.getScene().getWindow();
-    myStage.close();
+                    if (controller != null) {
+                        System.out.println("Controlador VistatransferenciasController cargado correctamente.");
+                    } else {
+                        System.out.println("Error al cargar el controlador de Vistatransferencias.");
+                    }
 
-} catch (IOException ex) {
-    Logger.getLogger(VistaoneController.class.getName()).log(Level.SEVERE, null, ex);
-}
+                    Scene scene = new Scene(root);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.show();
 
+                    // Cierra la ventana actual
+                    Stage myStage = (Stage) btntransferencias.getScene().getWindow();
+                    myStage.close();
 
-        }
-        
+                } catch (IOException ex) {
+                    Logger.getLogger(VistaoneController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+
         });
-        
-        
-        
+
         //Boton que abre la seccion de pago movil
         btnpagomovil.setOnAction(event -> {
-         if(pagomovil.isEmpty()){
-           Alert alerta = new Alert(AlertType.INFORMATION);
-        alerta.setTitle("Informacion");
-        alerta.setHeaderText("Informacion");
-        alerta.setContentText("No se encontraron movimientos de tipo pago movil en el archivo");
-        alerta.showAndWait();
-    } else {
-            try {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Vistapagomovil.fxml"));
-    Parent root = loader.load();
-    VistapagomovilController controller = loader.getController();
-   //Setteo todas las listas para poder trabajar la navegabilidad entre ventanas 
-    controller.setMovimientos(movimientos);
-    controller.Tablamovpm.setItems(pagomovil);// la tabla de la seccion transferencias.
-    controller.setTransferencias(transferencias);
-    controller.setPagomovil(pagomovil);
-    controller.setCompras(compras);
-     controller.setComisiones(comisiones);
-    controller.setNomina(nomina);
-    controller.setCreditos(creditos);
-    controller.setDivisas(divisas);
-    controller.setNombrecuenta(Nombrecuenta);
-        controller.labelcuenta.setText(Nombrecuenta);
+            if (pagomovil.isEmpty()) {
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Informacion");
+                alerta.setHeaderText("Informacion");
+                alerta.setContentText("No se encontraron movimientos de tipo pago movil en el archivo");
+                alerta.showAndWait();
+            } else {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Vistapagomovil.fxml"));
+                    Parent root = loader.load();
+                    VistapagomovilController controller = loader.getController();
+                    //Setteo todas las listas para poder trabajar la navegabilidad entre ventanas 
+                    controller.setMovimientos(movimientos);
+                    controller.Tablamovpm.setItems(pagomovil);// la tabla de la seccion transferencias.
+                    controller.setTransferencias(transferencias);
+                    controller.setPagomovil(pagomovil);
+                    controller.setCompras(compras);
+                    controller.setComisiones(comisiones);
+                    controller.setNomina(nomina);
+                    controller.setCreditos(creditos);
+                    controller.setDivisas(divisas);
+                    controller.setNombrecuenta(Nombrecuenta);
+                    controller.labelcuenta.setText(Nombrecuenta);
+                    controller.actualizarTotales();
+                    controller.ajustarAnchoColumnas();
 
-    for(Movimiento c : pagomovil){System.out.println("listo el pago movil"+c.toString());}
-   
-    if (controller != null) {
-        System.out.println("Controlador Vistapagomovil cargado correctamente.");
-    } else {
-        System.out.println("Error al cargar el controlador de Vistatransferencias.");
-    }
+                    for (Movimiento c : pagomovil) {
+                        System.out.println("listo el pago movil" + c.toString());
+                    }
 
-    Scene scene = new Scene(root);
-    Stage stage = new Stage();
-    stage.setScene(scene);
-    stage.show();
+                    if (controller != null) {
+                        System.out.println("Controlador Vistapagomovil cargado correctamente.");
+                    } else {
+                        System.out.println("Error al cargar el controlador de Vistatransferencias.");
+                    }
 
-    // Cierra la ventana actual
-    Stage myStage = (Stage) btntransferencias.getScene().getWindow();
-    myStage.close();
+                    Scene scene = new Scene(root);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.show();
 
-} catch (IOException ex) {
-    Logger.getLogger(VistaoneController.class.getName()).log(Level.SEVERE, null, ex);
-}
+                    // Cierra la ventana actual
+                    Stage myStage = (Stage) btntransferencias.getScene().getWindow();
+                    myStage.close();
 
+                } catch (IOException ex) {
+                    Logger.getLogger(VistaoneController.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
-         }
-        
+            }
+
         });
-        
-        
-        btncompra.setOnAction(event ->{
-        
-         if(compras.isEmpty()){
-           Alert alerta = new Alert(AlertType.INFORMATION);
-        alerta.setTitle("Informacion");
-        alerta.setHeaderText("Informacion");
-        alerta.setContentText("No se encontraron movimientos de tipo Compras Maestro en el archivo");
-        alerta.showAndWait();
-    } else {
-            try {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Vistacompra.fxml"));
-    Parent root = loader.load();
-    VistacompraController controller = loader.getController();
-   //Setteo todas las listas para poder trabajar la navegabilidad entre ventanas 
-    controller.setMovimientos(movimientos);
-    controller.Tablamovcompra.setItems(compras);// la tabla de la seccion transferencias.
-    controller.setTransferencias(transferencias);
-    controller.setPagomovil(pagomovil);
-    controller.setCompras(compras);
-     controller.setComisiones(comisiones);
-    controller.setNomina(nomina);
-    controller.setCreditos(creditos);
-    controller.setDivisas(divisas);
-    controller.setNombrecuenta(Nombrecuenta);
-       controller.labelcuenta.setText(Nombrecuenta);
 
-    if (controller != null) {
-        System.out.println("Controlador Vistacompra cargado correctamente.");
-    } else {
-        System.out.println("Error al cargar el controlador de Vistatransferencias.");
-    }
+        btncompra.setOnAction(event -> {
 
-    Scene scene = new Scene(root);
-    Stage stage = new Stage();
-    stage.setScene(scene);
-    stage.show();
+            if (compras.isEmpty()) {
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Informacion");
+                alerta.setHeaderText("Informacion");
+                alerta.setContentText("No se encontraron movimientos de tipo Compras Maestro en el archivo");
+                alerta.showAndWait();
+            } else {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Vistacompra.fxml"));
+                    Parent root = loader.load();
+                    VistacompraController controller = loader.getController();
+                    //Setteo todas las listas para poder trabajar la navegabilidad entre ventanas 
+                    controller.setMovimientos(movimientos);
+                    controller.Tablamovcompra.setItems(compras);// la tabla de la seccion transferencias.
+                    controller.setTransferencias(transferencias);
+                    controller.setPagomovil(pagomovil);
+                    controller.setCompras(compras);
+                    controller.setComisiones(comisiones);
+                    controller.setNomina(nomina);
+                    controller.setCreditos(creditos);
+                    controller.setDivisas(divisas);
+                    controller.setNombrecuenta(Nombrecuenta);
+                    controller.labelcuenta.setText(Nombrecuenta);
+                    controller.actualizarTotales();
+                    controller.ajustarAnchoColumnas();
 
-    // Cierra la ventana actual
-    Stage myStage = (Stage) btntransferencias.getScene().getWindow();
-    myStage.close();
+                    if (controller != null) {
+                        System.out.println("Controlador Vistacompra cargado correctamente.");
+                    } else {
+                        System.out.println("Error al cargar el controlador de Vistatransferencias.");
+                    }
 
-} catch (IOException ex) {
-    Logger.getLogger(VistaoneController.class.getName()).log(Level.SEVERE, null, ex);
-}
+                    Scene scene = new Scene(root);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.show();
 
+                    // Cierra la ventana actual
+                    Stage myStage = (Stage) btntransferencias.getScene().getWindow();
+                    myStage.close();
 
-         }
-        
+                } catch (IOException ex) {
+                    Logger.getLogger(VistaoneController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+
         });
-        
-        
+
         btncomisiones.setOnAction(event -> {
-        
-           if(comisiones.isEmpty()){
-           Alert alerta = new Alert(AlertType.INFORMATION);
-        alerta.setTitle("Informacion");
-        alerta.setHeaderText("Informacion");
-        alerta.setContentText("No se encontraron movimientos de tipo Comision en el archivo");
-        alerta.showAndWait();
-    } else {
-            try {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Vistacomisiones.fxml"));
-    Parent root = loader.load();
-    VistacomisionesController controller = loader.getController();
-   //Setteo todas las listas para poder trabajar la navegabilidad entre ventanas 
-    controller.setMovimientos(movimientos);
-    controller.Tablamovcomisiones.setItems(comisiones);// la tabla de la seccion transferencias.
-    controller.setTransferencias(transferencias);
-    controller.setPagomovil(pagomovil);
-    controller.setCompras(compras);
-     controller.setComisiones(comisiones);
-   controller.setNomina(nomina);
-    controller.setCreditos(creditos);
-    controller.setDivisas(divisas);
-  controller.setNombrecuenta(Nombrecuenta);
-   
-    if (controller != null) {
-        System.out.println("Controlador Vistacomisiones cargado correctamente.");
-    } else {
-        System.out.println("Error al cargar el controlador de Vistacomisiones.");
-    }
 
-    Scene scene = new Scene(root);
-    Stage stage = new Stage();
-    stage.setScene(scene);
-    stage.show();
+            if (comisiones.isEmpty()) {
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Informacion");
+                alerta.setHeaderText("Informacion");
+                alerta.setContentText("No se encontraron movimientos de tipo Comision en el archivo");
+                alerta.showAndWait();
+            } else {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Vistacomisiones.fxml"));
+                    Parent root = loader.load();
+                    VistacomisionesController controller = loader.getController();
+                    //Setteo todas las listas para poder trabajar la navegabilidad entre ventanas 
+                    controller.setMovimientos(movimientos);
+                    controller.Tablamovcomisiones.setItems(comisiones);// la tabla de la seccion transferencias.
+                    controller.setTransferencias(transferencias);
+                    controller.setPagomovil(pagomovil);
+                    controller.setCompras(compras);
+                    controller.setComisiones(comisiones);
+                    controller.setNomina(nomina);
+                    controller.setCreditos(creditos);
+                    controller.setDivisas(divisas);
+                    controller.setNombrecuenta(Nombrecuenta);
+                    controller.actualizarTotales();
+                    controller.ajustarAnchoColumnas();
 
-    // Cierra la ventana actual
-    Stage myStage = (Stage) btncomisiones.getScene().getWindow();
-    myStage.close();
+                    if (controller != null) {
+                        System.out.println("Controlador Vistacomisiones cargado correctamente.");
+                    } else {
+                        System.out.println("Error al cargar el controlador de Vistacomisiones.");
+                    }
 
-} catch (IOException ex) {
-    Logger.getLogger(VistaoneController.class.getName()).log(Level.SEVERE, null, ex);
-}
+                    Scene scene = new Scene(root);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.show();
 
+                    // Cierra la ventana actual
+                    Stage myStage = (Stage) btncomisiones.getScene().getWindow();
+                    myStage.close();
 
-         }
-        
+                } catch (IOException ex) {
+                    Logger.getLogger(VistaoneController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+
         });
-        
-        
+
         btnnomina.setOnAction(event -> {
-        
-           if(nomina.isEmpty()){
-           Alert alerta = new Alert(AlertType.INFORMATION);
-        alerta.setTitle("Informacion");
-        alerta.setHeaderText("Informacion");
-        alerta.setContentText("No se encontraron movimientos de tipo Nomina en el archivo");
-        alerta.showAndWait();
-    } else {
-            try {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Vistanomina.fxml"));
-    Parent root = loader.load();
-    VistanominaController controller = loader.getController();
-   //Setteo todas las listas para poder trabajar la navegabilidad entre ventanas 
-    controller.setMovimientos(movimientos);
-    controller.Tablamovnomina.setItems(nomina);// la tabla de la seccion transferencias.
-    controller.setTransferencias(transferencias);
-    controller.setPagomovil(pagomovil);
-    controller.setCompras(compras);
-     controller.setComisiones(comisiones);
-   controller.setNomina(nomina);
-    controller.setCreditos(creditos);
-    controller.setDivisas(divisas);
-  controller.setNombrecuenta(Nombrecuenta);
-       controller.labelcuenta.setText(Nombrecuenta);
 
-    if (controller != null) {
-        System.out.println("Controlador Vistanomina cargado correctamente.");
-    } else {
-        System.out.println("Error al cargar el controlador de Vistacomisiones.");
-    }
+            if (nomina.isEmpty()) {
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Informacion");
+                alerta.setHeaderText("Informacion");
+                alerta.setContentText("No se encontraron movimientos de tipo Nomina en el archivo");
+                alerta.showAndWait();
+            } else {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Vistanomina.fxml"));
+                    Parent root = loader.load();
+                    VistanominaController controller = loader.getController();
+                    //Setteo todas las listas para poder trabajar la navegabilidad entre ventanas 
+                    controller.setMovimientos(movimientos);
+                    controller.Tablamovnomina.setItems(nomina);// la tabla de la seccion transferencias.
+                    controller.setTransferencias(transferencias);
+                    controller.setPagomovil(pagomovil);
+                    controller.setCompras(compras);
+                    controller.setComisiones(comisiones);
+                    controller.setNomina(nomina);
+                    controller.setCreditos(creditos);
+                    controller.setDivisas(divisas);
+                    controller.setNombrecuenta(Nombrecuenta);
+                    controller.labelcuenta.setText(Nombrecuenta);
+                    controller.actualizarTotales();
+                    controller.ajustarAnchoColumnas();
 
-    Scene scene = new Scene(root);
-    Stage stage = new Stage();
-    stage.setScene(scene);
-    stage.show();
+                    if (controller != null) {
+                        System.out.println("Controlador Vistanomina cargado correctamente.");
+                    } else {
+                        System.out.println("Error al cargar el controlador de Vistacomisiones.");
+                    }
 
-    // Cierra la ventana actual
-    Stage myStage = (Stage) btncomisiones.getScene().getWindow();
-    myStage.close();
+                    Scene scene = new Scene(root);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.show();
 
-} catch (IOException ex) {
-    Logger.getLogger(VistaoneController.class.getName()).log(Level.SEVERE, null, ex);
-}
+                    // Cierra la ventana actual
+                    Stage myStage = (Stage) btncomisiones.getScene().getWindow();
+                    myStage.close();
 
+                } catch (IOException ex) {
+                    Logger.getLogger(VistaoneController.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
-         }
-        
+            }
+
         });
-        
-        
+
         btncreditos.setOnAction(event -> {
-        
-                if(creditos.isEmpty()){
-           Alert alerta = new Alert(AlertType.INFORMATION);
-        alerta.setTitle("Informacion");
-        alerta.setHeaderText("Informacion");
-        alerta.setContentText("No se encontraron movimientos de tipo Credito en el archivo");
-        alerta.showAndWait();
-    } else {
-            try {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Vistacredito.fxml"));
-    Parent root = loader.load();
-    VistacreditoController controller = loader.getController();
-   //Setteo todas las listas para poder trabajar la navegabilidad entre ventanas 
-    controller.setMovimientos(movimientos);
-    controller.Tablamovcredito.setItems(creditos);// la tabla de la seccion transferencias.
-    controller.setTransferencias(transferencias);
-    controller.setPagomovil(pagomovil);
-    controller.setCompras(compras);
-     controller.setComisiones(comisiones);
-   controller.setNomina(nomina);
-    controller.setCreditos(creditos);
-    controller.setDivisas(divisas);
-  controller.setNombrecuenta(Nombrecuenta);
-       controller.labelcuenta.setText(Nombrecuenta);
 
-    if (controller != null) {
-        System.out.println("Controlador Vistacredito cargado correctamente.");
-    } else {
-        System.out.println("Error al cargar el controlador de Vistacomisiones.");
-    }
+            if (creditos.isEmpty()) {
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Informacion");
+                alerta.setHeaderText("Informacion");
+                alerta.setContentText("No se encontraron movimientos de tipo Credito en el archivo");
+                alerta.showAndWait();
+            } else {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Vistacredito.fxml"));
+                    Parent root = loader.load();
+                    VistacreditoController controller = loader.getController();
+                    //Setteo todas las listas para poder trabajar la navegabilidad entre ventanas 
+                    controller.setMovimientos(movimientos);
+                    controller.Tablamovcredito.setItems(creditos);// la tabla de la seccion transferencias.
+                    controller.setTransferencias(transferencias);
+                    controller.setPagomovil(pagomovil);
+                    controller.setCompras(compras);
+                    controller.setComisiones(comisiones);
+                    controller.setNomina(nomina);
+                    controller.setCreditos(creditos);
+                    controller.setDivisas(divisas);
+                    controller.setNombrecuenta(Nombrecuenta);
+                    controller.labelcuenta.setText(Nombrecuenta);
+                    controller.actualizarTotales();
+                    controller.ajustarAnchoColumnas();
 
-    Scene scene = new Scene(root);
-    Stage stage = new Stage();
-    stage.setScene(scene);
-    stage.show();
+                    if (controller != null) {
+                        System.out.println("Controlador Vistacredito cargado correctamente.");
+                    } else {
+                        System.out.println("Error al cargar el controlador de Vistacomisiones.");
+                    }
 
-    // Cierra la ventana actual
-    Stage myStage = (Stage) btncomisiones.getScene().getWindow();
-    myStage.close();
+                    Scene scene = new Scene(root);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.show();
 
-} catch (IOException ex) {
-    Logger.getLogger(VistaoneController.class.getName()).log(Level.SEVERE, null, ex);
-}
+                    // Cierra la ventana actual
+                    Stage myStage = (Stage) btncomisiones.getScene().getWindow();
+                    myStage.close();
 
+                } catch (IOException ex) {
+                    Logger.getLogger(VistaoneController.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
-         }
-        
+            }
+
         });
-        
+
         btndivisas.setOnAction(event -> {
-        
-         
-                if(divisas.isEmpty()){
-           Alert alerta = new Alert(AlertType.INFORMATION);
-        alerta.setTitle("Informacion");
-        alerta.setHeaderText("Informacion");
-        alerta.setContentText("No se encontraron movimientos de tipo Divisas en el archivo");
-        alerta.showAndWait();
-    } else {
-            try {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Vistadivisas.fxml"));
-    Parent root = loader.load();
-    VistadivisasController controller = loader.getController();
-   //Setteo todas las listas para poder trabajar la navegabilidad entre ventanas 
-    controller.setMovimientos(movimientos);
-    controller.Tablamovdivisas.setItems(divisas);// la tabla de la seccion transferencias.
-    controller.setTransferencias(transferencias);
-    controller.setPagomovil(pagomovil);
-    controller.setCompras(compras);
-     controller.setComisiones(comisiones);
-   controller.setNomina(nomina);
-    controller.setCreditos(creditos);
-    controller.setDivisas(divisas);
-  controller.setNombrecuenta(Nombrecuenta);
-       controller.labelcuenta.setText(Nombrecuenta);
 
-    if (controller != null) {
-        System.out.println("Controlador Vistadivisas cargado correctamente.");
-    } else {
-        System.out.println("Error al cargar el controlador de Vistadivisass.");
-    }
+            if (divisas.isEmpty()) {
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Informacion");
+                alerta.setHeaderText("Informacion");
+                alerta.setContentText("No se encontraron movimientos de tipo Divisas en el archivo");
+                alerta.showAndWait();
+            } else {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Vistadivisas.fxml"));
+                    Parent root = loader.load();
+                    VistadivisasController controller = loader.getController();
+                    //Setteo todas las listas para poder trabajar la navegabilidad entre ventanas 
+                    controller.setMovimientos(movimientos);
+                    controller.Tablamovdivisas.setItems(divisas);// la tabla de la seccion transferencias.
+                    controller.setTransferencias(transferencias);
+                    controller.setPagomovil(pagomovil);
+                    controller.setCompras(compras);
+                    controller.setComisiones(comisiones);
+                    controller.setNomina(nomina);
+                    controller.setCreditos(creditos);
+                    controller.setDivisas(divisas);
+                    controller.setNombrecuenta(Nombrecuenta);
+                    controller.labelcuenta.setText(Nombrecuenta);
+                    controller.actualizarTotales();
+                    controller.ajustarAnchoColumnas();
 
-    Scene scene = new Scene(root);
-    Stage stage = new Stage();
-    stage.setScene(scene);
-    stage.show();
+                    if (controller != null) {
+                        System.out.println("Controlador Vistadivisas cargado correctamente.");
+                    } else {
+                        System.out.println("Error al cargar el controlador de Vistadivisass.");
+                    }
 
-    // Cierra la ventana actual
-    Stage myStage = (Stage) btncomisiones.getScene().getWindow();
-    myStage.close();
+                    Scene scene = new Scene(root);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.show();
 
-} catch (IOException ex) {
-    Logger.getLogger(VistaoneController.class.getName()).log(Level.SEVERE, null, ex);
-}
+                    // Cierra la ventana actual
+                    Stage myStage = (Stage) btncomisiones.getScene().getWindow();
+                    myStage.close();
 
+                } catch (IOException ex) {
+                    Logger.getLogger(VistaoneController.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
-         }
+            }
         });
-        
+
         btnlimpiardatos.setOnAction(event -> {
-        movimientos.clear();
-        transferencias.clear();
-        pagomovil.clear();
-        compras.clear();
-        comisiones.clear();
-        nomina.clear();
-        creditos.clear();   
-        divisas.clear();
-           Alert alerta = new Alert(AlertType.INFORMATION);
-        alerta.setTitle("Informacion");
-        alerta.setHeaderText("Informacion");
-        alerta.setContentText("Se han eliminado correctamente los movimientos");
-        alerta.showAndWait();
+            movimientos.clear();
+            transferencias.clear();
+            pagomovil.clear();
+            compras.clear();
+            comisiones.clear();
+            nomina.clear();
+            creditos.clear();
+            divisas.clear();
+            Alert alerta = new Alert(AlertType.INFORMATION);
+            alerta.setTitle("Informacion");
+            alerta.setHeaderText("Informacion");
+            alerta.setContentText("Se han eliminado correctamente los movimientos");
+            alerta.showAndWait();
         });
-        
-         txtbuscar.textProperty().addListener((observable, oldValue, newValue) -> {
-        buscarMovimientos(newValue);
-    });
 
-btnexportar.setOnAction(event -> {
-    exportarAExcel();
-});
+        txtbuscar.textProperty().addListener((observable, oldValue, newValue) -> {
+            buscarMovimientos(newValue);
+        });
+
+        btnexportar.setOnAction(event -> {
+            exportarTodosLosMovimientos();
+        });
+
+        DropShadow shadow = new DropShadow();
+        shadow.setOffsetX(7);
+        shadow.setOffsetY(5);
+        shadow.setRadius(56);
+        shadow.setColor(javafx.scene.paint.Color.web("#C3D900", 0.5)); // Color de sombra
+
+        // Transición de escalado
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(0.2), Openbutton);
+        scaleTransition.setFromX(1.0);
+        scaleTransition.setFromY(1.0);
+        scaleTransition.setToX(0.97);
+        scaleTransition.setToY(0.97);
+        scaleTransition.setAutoReverse(true); // Volver a la escala original
+        scaleTransition.setCycleCount(2); // Repetir la transición
+
+        // Eventos de mouse
+        Openbutton.setOnMouseEntered(e -> {
+            Openbutton.setEffect(shadow); // Aplicar sombra al pasar el mouse
+            scaleTransition.play(); // Iniciar la animación de escalado
+        });
+
+        Openbutton.setOnMouseExited(e -> {
+            Openbutton.setEffect(null); // Quitar sombra al salir
+            scaleTransition.stop(); // Detener la animación de escalado
+            Openbutton.setScaleX(1.0); // Volver a la escala original
+            Openbutton.setScaleY(1.0);
+        });
+
+        Openbutton.setOnMousePressed(e -> {
+            Openbutton.setEffect(shadow); // Aplicar sombra al presionar
+            scaleTransition.play(); // Iniciar la animación de escalado
+        });
+
+        Openbutton.setOnMouseReleased(e -> {
+            Openbutton.setEffect(null); // Quitar sombra al soltar
+            Openbutton.setScaleX(1.0); // Volver a la escala original
+            Openbutton.setScaleY(1.0);
+        });
 
     }
 
-   
-    
-    
-    
-    
-    
-    
-    
-    
     private void openFile() throws IOException {
         // Crear un file chooser para seleccionar el archivo
         FileChooser fileChooser = new FileChooser();
@@ -645,7 +699,7 @@ btnexportar.setOnAction(event -> {
 
         // Mostrar solo archivos Excel
         fileChooser.getExtensionFilters().addAll(
-            new FileChooser.ExtensionFilter("Archivos de Excel", "*.xls", "*.xlsx")
+                new FileChooser.ExtensionFilter("Archivos de Excel", "*.xls", "*.xlsx")
         );
 
         Stage stage = (Stage) Openbutton.getScene().getWindow();
@@ -684,7 +738,6 @@ btnexportar.setOnAction(event -> {
         }
     }
 
-    
     private void setMovimientoProperty(Movimiento movimiento, int columnIndex, String value) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); // Formato de fecha
         if (value == null || value.isEmpty()) {
@@ -720,13 +773,13 @@ btnexportar.setOnAction(event -> {
                 movimiento.setDescripcion(value);
                 break;
             case 12: // Columna G - Referencia
-             try {
-        // Convertir a número entero
-               int referenciaValue = (int) Double.parseDouble(value);
-                movimiento.setReferencia(referenciaValue);
-              } catch (NumberFormatException e) {
-                  System.out.println("El valor en la columna de referencia no es un número: " + value);
-                 }
+                try {
+                    // Convertir a número entero
+                    int referenciaValue = (int) Double.parseDouble(value);
+                    movimiento.setReferencia(referenciaValue);
+                } catch (NumberFormatException e) {
+                    System.out.println("El valor en la columna de referencia no es un número: " + value);
+                }
                 break;
             case 13: // Columna H - Debe
                 try {
@@ -752,233 +805,242 @@ btnexportar.setOnAction(event -> {
         }
     }
 
-    
-
-    
     private void processExcelFile(Workbook workbook) {
-    Sheet sheet = workbook.getSheetAt(0);  // Tomamos la primera hoja
-    System.out.println("Número de filas en la hoja: " + sheet.getPhysicalNumberOfRows());
+        Sheet sheet = workbook.getSheetAt(0);  // Tomamos la primera hoja
+        System.out.println("Número de filas en la hoja: " + sheet.getPhysicalNumberOfRows());
 
-    // Obtener todas las celdas combinadas (rangos de celdas combinadas)
-    List<CellRangeAddress> mergedRegions = sheet.getMergedRegions();
+        // Obtener todas las celdas combinadas (rangos de celdas combinadas)
+        List<CellRangeAddress> mergedRegions = sheet.getMergedRegions();
 
-    int filasDesconocidas = 0;  // Contador de filas con datos desconocidos
+        int filasDesconocidas = 0;  // Contador de filas con datos desconocidos
 
-    // Recorremos cada fila del Excel, comenzando desde la fila 17 (índice 16)
-    for (int rowIndex = 16; rowIndex < sheet.getPhysicalNumberOfRows(); rowIndex++) { // Comenzamos desde la fila 17
-        Row row = sheet.getRow(rowIndex);
-        if (row != null) {
-            System.out.println("Procesando fila " + (rowIndex + 1) + " (índice " + rowIndex + ")");
-            
-            Movimiento movimiento = new Movimiento();
-            boolean isRowValid = false;  // Indicador para verificar si la fila tiene datos válidos
+        // Recorremos cada fila del Excel, comenzando desde la fila 17 (índice 16)
+        for (int rowIndex = 16; rowIndex < sheet.getPhysicalNumberOfRows(); rowIndex++) { // Comenzamos desde la fila 17
+            Row row = sheet.getRow(rowIndex);
+            if (row != null) {
+                System.out.println("Procesando fila " + (rowIndex + 1) + " (índice " + rowIndex + ")");
 
-            // Verificamos cada celda de la fila, solo las columnas de interés (de la columna B en adelante)
-            for (int i = 1; i < 17; i++) {  // Empezamos desde la columna B (índice 1)
-                Cell cell = row.getCell(i);
-                
-                // Verificar si la celda está dentro de un rango combinado
-                String value = getCellValueForMergedCells(cell, mergedRegions);
-                
-                // Si el valor no es vacío ni "Dato desconocido", lo procesamos
-                if (value != null && !value.equals("Dato desconocido") && !value.isEmpty()) {
-                    setMovimientoProperty(movimiento, i, value); // Asignar el valor de la celda al movimiento
-                    isRowValid = true; // Marcar la fila como válida si al menos una celda tiene datos válidos
+                Movimiento movimiento = new Movimiento();
+                boolean isRowValid = false;  // Indicador para verificar si la fila tiene datos válidos
+
+                // Verificamos cada celda de la fila, solo las columnas de interés (de la columna B en adelante)
+                for (int i = 1; i < 17; i++) {  // Empezamos desde la columna B (índice 1)
+                    Cell cell = row.getCell(i);
+
+                    // Verificar si la celda está dentro de un rango combinado
+                    String value = getCellValueForMergedCells(cell, mergedRegions);
+
+                    // Si el valor no es vacío ni "Dato desconocido", lo procesamos
+                    if (value != null && !value.equals("Dato desconocido") && !value.isEmpty()) {
+                        setMovimientoProperty(movimiento, i, value); // Asignar el valor de la celda al movimiento
+                        isRowValid = true; // Marcar la fila como válida si al menos una celda tiene datos válidos
+                    }
                 }
-            }
 
-            // Si la fila tiene al menos un dato válido, procesamos y agregamos el movimiento
-            if (isRowValid && movimiento.getFecha() != null && movimiento.getCodigo() != null) {
-                movimientos.add(movimiento); // Agregar el objeto Movimiento a la lista
-                System.out.println("Movimiento agregado: " + movimiento);
+                // Si la fila tiene al menos un dato válido, procesamos y agregamos el movimiento
+                if (isRowValid && movimiento.getFecha() != null && movimiento.getCodigo() != null) {
+                    movimientos.add(movimiento); // Agregar el objeto Movimiento a la lista
+                    System.out.println("Movimiento agregado: " + movimiento);
+                } else {
+                    System.out.println("Fila no válida en el índice: " + rowIndex);
+                    filasDesconocidas++;  // Incrementar el contador de filas desconocidas
+                }
             } else {
-                System.out.println("Fila no válida en el índice: " + rowIndex);
+                System.out.println("Fila vacía en el índice " + rowIndex);
                 filasDesconocidas++;  // Incrementar el contador de filas desconocidas
             }
-        } else {
-            System.out.println("Fila vacía en el índice " + rowIndex);
-            filasDesconocidas++;  // Incrementar el contador de filas desconocidas
         }
-    }
 
-    // Validar si hay más de 40 filas con datos desconocidos
-    if (filasDesconocidas > 40) {
-        Alert alerta = new Alert(Alert.AlertType.ERROR);
-        alerta.setTitle("Error");
-        alerta.setHeaderText("Archivo desconocido");
-        alerta.setContentText("El archivo contiene más de 40 filas con datos desconocidos y no se puede procesar.");
-        alerta.showAndWait();
-        return;  // Salir del método y no procesar el archivo
-    }
-   Cell celdaB14 = sheet.getRow(13).getCell(1); // Fila 14, Columna 2 (B)
-        String Nombrecuenta = celdaB14.getStringCellValue(); // Suponiendo que es un string
+        // Validar si hay más de 40 filas con datos desconocidos
+        if (filasDesconocidas > 40) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("Error");
+            alerta.setHeaderText("Archivo desconocido");
+            alerta.setContentText("El archivo contiene más de 40 filas con datos desconocidos y no se puede procesar.");
+            alerta.showAndWait();
+            return;  // Salir del método y no procesar el archivo
+        }
+        Cell celdaB14 = sheet.getRow(13).getCell(1); // Fila 14, Columna 2 (B)
+        Nombrecuenta = celdaB14.getStringCellValue(); // Suponiendo que es un string
         labelcuenta.setText(Nombrecuenta);
 
-    Tablamov.refresh(); // Actualizar la TableView
-}
-
-private String getCellValueForMergedCells(Cell cell, List<CellRangeAddress> mergedRegions) {
-    if (cell == null) {
-        return "Dato desconocido";  // Si la celda es nula, devolvemos "Dato desconocido"
+        Tablamov.refresh(); // Actualizar la TableView
     }
 
-    // Comprobar si la celda está dentro de una celda combinada
-    for (CellRangeAddress mergedRegion : mergedRegions) {
-        // Si la celda está dentro del rango de celdas combinadas
-        if (mergedRegion.isInRange(cell.getRowIndex(), cell.getColumnIndex())) {
-            // Devolver el valor de la primera celda del rango combinado
-            Row row = cell.getSheet().getRow(mergedRegion.getFirstRow());
-            Cell firstCell = row.getCell(mergedRegion.getFirstColumn());
-            return getCellValue(firstCell); // Retornar el valor de la primera celda
+    private String getCellValueForMergedCells(Cell cell, List<CellRangeAddress> mergedRegions) {
+        if (cell == null) {
+            return "Dato desconocido";  // Si la celda es nula, devolvemos "Dato desconocido"
         }
-    }
 
-    // Si no está dentro de una celda combinada, simplemente devolvemos el valor de la celda
-    return getCellValue(cell);
-}
-
-private String getCellValue(Cell cell) {
-    if (cell == null) {
-        return "Dato desconocido";  // Si la celda es nula, devolvemos "Dato desconocido"
-    }
-
-    String cellValue = null;  // Inicializamos con null para que si no hay valor, lo manejemos adecuadamente.
-    
-    switch (cell.getCellType()) {
-        case STRING:
-            // Si es texto, lo limpiamos de espacios innecesarios antes y después
-            cellValue = cell.getStringCellValue().trim();
-            break;
-        case NUMERIC:
-            // Si es un número, lo verificamos para fechas o números generales
-            if (DateUtil.isCellDateFormatted(cell)) {
-                // Si es fecha, la convertimos a texto
-                cellValue = cell.getDateCellValue().toString();
-            } else {
-                // Si es un número, lo convertimos a cadena
-                cellValue = String.valueOf(cell.getNumericCellValue());
+        // Comprobar si la celda está dentro de una celda combinada
+        for (CellRangeAddress mergedRegion : mergedRegions) {
+            // Si la celda está dentro del rango de celdas combinadas
+            if (mergedRegion.isInRange(cell.getRowIndex(), cell.getColumnIndex())) {
+                // Devolver el valor de la primera celda del rango combinado
+                Row row = cell.getSheet().getRow(mergedRegion.getFirstRow());
+                Cell firstCell = row.getCell(mergedRegion.getFirstColumn());
+                return getCellValue(firstCell); // Retornar el valor de la primera celda
             }
-            break;
-        case BOOLEAN:
-            // Si es un valor booleano, lo convertimos a cadena
-            cellValue = String.valueOf(cell.getBooleanCellValue());
-            break;
-        case FORMULA:
-            // Si es una fórmula, devolvemos la fórmula
-            cellValue = cell.getCellFormula();
-            break;
-        default:
-            // Si no tiene un tipo válido, devolvemos "Dato desconocido"
-            cellValue = "Dato desconocido";
-            break;
-    }
-    
-    // Si el valor es null o "Dato desconocido", lo devolvemos tal cual
-    if (cellValue == null || cellValue.isEmpty()) {
-        return "Dato desconocido";
+        }
+
+        // Si no está dentro de una celda combinada, simplemente devolvemos el valor de la celda
+        return getCellValue(cell);
     }
 
-    // Devolvemos el valor limpio
-    return cellValue.trim();
-}
+    private String getCellValue(Cell cell) {
+        if (cell == null) {
+            return "Dato desconocido";  // Si la celda es nula, devolvemos "Dato desconocido"
+        }
 
+        String cellValue = null;  // Inicializamos con null para que si no hay valor, lo manejemos adecuadamente.
 
-private Double Totalingresos(){
-Double Ingresos = 0.0;
+        switch (cell.getCellType()) {
+            case STRING:
+                // Si es texto, lo limpiamos de espacios innecesarios antes y después
+                cellValue = cell.getStringCellValue().trim();
+                break;
+            case NUMERIC:
+                // Si es un número, lo verificamos para fechas o números generales
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    // Si es fecha, la convertimos a texto
+                    cellValue = cell.getDateCellValue().toString();
+                } else {
+                    // Si es un número, lo convertimos a cadena
+                    cellValue = String.valueOf(cell.getNumericCellValue());
+                }
+                break;
+            case BOOLEAN:
+                // Si es un valor booleano, lo convertimos a cadena
+                cellValue = String.valueOf(cell.getBooleanCellValue());
+                break;
+            case FORMULA:
+                // Si es una fórmula, devolvemos la fórmula
+                cellValue = cell.getCellFormula();
+                break;
+            default:
+                // Si no tiene un tipo válido, devolvemos "Dato desconocido"
+                cellValue = "Dato desconocido";
+                break;
+        }
 
-for (Movimiento x : movimientos){  
-   Ingresos += x.getHaber();
-}
-return Ingresos;
-}
-private Double Totalegresos(){
-Double egresos = 0.0;
+        // Si el valor es null o "Dato desconocido", lo devolvemos tal cual
+        if (cellValue == null || cellValue.isEmpty()) {
+            return "Dato desconocido";
+        }
 
-for (Movimiento x : movimientos){  
-   egresos += x.getDebe();
-}
-return egresos;
-}
+        // Devolvemos el valor limpio
+        return cellValue.trim();
+    }
 
-private Double Saldo(){
-Movimiento xd = movimientos.get(-1);
+    private String Totalingresos() {
 
-Double Saldo = xd.getSaldo();
-   
-    return Saldo;
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+        Double ingresos = 0.0;
+        for (Movimiento movimiento : movimientos) {
+            ingresos += movimiento.getHaber(); // Suponiendo que 'haber' representa ingresos
+        }
 
-}
+        return decimalFormat.format(ingresos);
+    }
 
-public void Agregartransferencias(){
+    private String Totalegresos() {
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 
-for (Movimiento x : movimientos){  
-   if(x.getCodigo() == 262){
-      transferencias.add(x);
-   }
-}
+        Double egresos = 0.0;
+        for (Movimiento movimiento : movimientos) {
+            egresos += movimiento.getDebe(); // Suponiendo que 'debe' representa egresos
+        }
+        return decimalFormat.format(egresos);
+    }
 
-}
+    private String Saldo() {
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+        if (movimientos.isEmpty()) {
+            return "0.0"; // O cualquier valor que desees usar cuando no hay movimientos
+        }
+        Movimiento lastMovimiento = movimientos.get(movimientos.size() - 1);
+        return decimalFormat.format(lastMovimiento.getSaldo());
 
-public void Agregarpagomovil() {
-    for (Movimiento x : movimientos) {
-        System.out.println("Código: " + x.getCodigo());  // Imprime el código para verificar
-        if (x.getCodigo() == 387) {
-            pagomovil.add(x);
-            System.out.println("Movimiento agregado a PagoMovil: " + x);
+    }
+
+    public void agregarTotales() {
+         labelsaldo.setVisible(true);
+        labelingresos.setVisible(true);
+        labelegresos.setVisible(true);
+        labelsaldo.setText("Saldo disponible: " + Saldo());
+        labelingresos.setText("Total Ingresos: " + Totalingresos());
+        labelegresos.setText("Total Egresos: -" + Totalegresos());
+    }
+
+    public void Agregartransferencias() {
+
+        for (Movimiento x : movimientos) {
+            if (x.getCodigo() == 262) {
+                transferencias.add(x);
+            }
+        }
+
+    }
+
+    public void Agregarpagomovil() {
+        for (Movimiento x : movimientos) {
+            System.out.println("Código: " + x.getCodigo());  // Imprime el código para verificar
+            if (x.getCodigo() == 387) {
+                pagomovil.add(x);
+                System.out.println("Movimiento agregado a PagoMovil: " + x);
+            }
         }
     }
-}
 
-public void AgregarCompras(){
-   for (Movimiento x : movimientos) {
-        System.out.println("Código: " + x.getCodigo());  // Imprime el código para verificar
-        if (x.getCodigo() == 376) {
-            compras.add(x);
-            System.out.println("Movimiento agregado a compras: " + x);
+    public void AgregarCompras() {
+        for (Movimiento x : movimientos) {
+            System.out.println("Código: " + x.getCodigo());  // Imprime el código para verificar
+            if (x.getCodigo() == 376) {
+                compras.add(x);
+                System.out.println("Movimiento agregado a compras: " + x);
+            }
         }
     }
-}
 
-public void AgregarComisiones(){
-   for (Movimiento x : movimientos) {
-        System.out.println("Código: " + x.getCodigo());  // Imprime el código para verificar
-        if (x.getCodigo() == 751) {
-            comisiones.add(x);
-            System.out.println("Movimiento agregado a comisiones: " + x);
+    public void AgregarComisiones() {
+        for (Movimiento x : movimientos) {
+            System.out.println("Código: " + x.getCodigo());  // Imprime el código para verificar
+            if (x.getCodigo() == 751 || ( x.getTipot().equals("COMISI")) && x.getCodigo() == 730) {
+                comisiones.add(x);
+                System.out.println("Movimiento agregado a comisiones: " + x);
+            }
         }
     }
-}
 
-public void AgregarNomina(){
-   for (Movimiento x : movimientos) {
-        System.out.println("Código: " + x.getCodigo());  // Imprime el código para verificar
-        if (x.getCodigo() == 730) {
-            nomina.add(x);
-            System.out.println("Movimiento agregado a nomina : " + x);
+    public void AgregarNomina() {
+        for (Movimiento x : movimientos) {
+            System.out.println("Código: " + x.getCodigo());  // Imprime el código para verificar
+            if (x.getCodigo() == 730 && !(x.getTipot().equals("COMISI"))) {
+                nomina.add(x);
+                System.out.println("Movimiento agregado a nomina : " + x);
+            }
         }
     }
-}
 
-public void AgregarCredito(){
-   for (Movimiento x : movimientos) {
-        System.out.println("Código: " + x.getCodigo());  // Imprime el código para verificar
-        if (x.getCodigo() == 487 || x.getCodigo() == 488 || x.getCodigo() == 489 ) {
-            creditos.add(x);
-            System.out.println("Movimiento agregado a credito: " + x);
+    public void AgregarCredito() {
+        for (Movimiento x : movimientos) {
+            System.out.println("Código: " + x.getCodigo());  // Imprime el código para verificar
+            if (x.getCodigo() == 487 || x.getCodigo() == 488 || x.getCodigo() == 489) {
+                creditos.add(x);
+                System.out.println("Movimiento agregado a credito: " + x);
+            }
         }
     }
-}
 
-public void AgregarDivisas(){
-   for (Movimiento x : movimientos) {
-        System.out.println("Código: " + x.getCodigo());  // Imprime el código para verificar
-        if (x.getCodigo() == 647 || x.getCodigo() == 286) {
-            divisas.add(x);
-            System.out.println("Movimiento agregado a divisas: " + x);
+    public void AgregarDivisas() {
+        for (Movimiento x : movimientos) {
+            System.out.println("Código: " + x.getCodigo());  // Imprime el código para verificar
+            if (x.getCodigo() == 647 || x.getCodigo() == 286) {
+                divisas.add(x);
+                System.out.println("Movimiento agregado a divisas: " + x);
+            }
         }
     }
-}
-
 
     public void setMovimientos(ObservableList<Movimiento> movimientos) {
         this.movimientos = movimientos;
@@ -1012,42 +1074,52 @@ public void AgregarDivisas(){
         this.divisas = divisas;
     }
 
-  public void refrescar(){Tablamov.setItems(movimientos);Tablamov.refresh();}
+    public void refrescar() {
+        Tablamov.setItems(movimientos);
+        Tablamov.refresh();
+    }
 
     public void setNombrecuenta(String Nombrecuenta) {
         this.Nombrecuenta = Nombrecuenta;
     }
-  
-  // Método para buscar movimientos
-private void buscarMovimientos(String searchText) {
-    // Crear una lista filtrada a partir de la lista original
-    FilteredList<Movimiento> filteredData = new FilteredList<>(movimientos, p -> true);
+    
+    private void limpiarTotales(){
+        labelsaldo.setVisible(false);
+        labelingresos.setVisible(false);
+        labelegresos.setVisible(false);
+    }
 
-    // Filtrar la lista según el texto ingresado
-    filteredData.setPredicate(movimiento -> {
-        // Si el texto de búsqueda está vacío, se muestran todos los elementos
-        if (searchText == null || searchText.isEmpty()) {
-            return true;
-        }
+    // Método para buscar movimientos
+    private void buscarMovimientos(String searchText) {
+        // Crear una lista filtrada a partir de la lista original
+        FilteredList<Movimiento> filteredData = new FilteredList<>(movimientos, p -> true);
 
-        // Convertir el texto de búsqueda a minúsculas para una comparación no sensible a mayúsculas
-        String lowerCaseFilter = searchText.toLowerCase();
+        // Filtrar la lista según el texto ingresado
+        filteredData.setPredicate(movimiento -> {
+            // Si el texto de búsqueda está vacío, se muestran todos los elementos
+            if (searchText == null || searchText.isEmpty()) {
+                return true;
+            }
 
-        // Comprobar si alguno de los atributos coincide con el texto de búsqueda
-        return movimiento.getDescripcion().toLowerCase().contains(lowerCaseFilter) ||
-               movimiento.getTipot().toLowerCase().contains(lowerCaseFilter) ||
-               movimiento.getTipoO().toLowerCase().contains(lowerCaseFilter) ||
-               String.valueOf(movimiento.getCodigo()).contains(lowerCaseFilter) ||
-               String.valueOf(movimiento.getReferencia()).contains(lowerCaseFilter)||
-               String.valueOf(movimiento.getDebe()).contains(lowerCaseFilter) ||
-               String.valueOf(movimiento.getHaber()).contains(lowerCaseFilter) ||
-               String.valueOf(movimiento.getSaldo()).contains(lowerCaseFilter);
-    });
+            // Convertir el texto de búsqueda a minúsculas para una comparación no sensible a mayúsculas
+            String lowerCaseFilter = searchText.toLowerCase();
 
-    // Actualizar la TableView con los resultados filtrados
-    Tablamov.setItems(filteredData);
-}
-  // Método para calcular y retornar los totales de debe y haber
+            // Comprobar si alguno de los atributos coincide con el texto de búsqueda
+            return movimiento.getDescripcion().toLowerCase().contains(lowerCaseFilter)
+                    || movimiento.getTipot().toLowerCase().contains(lowerCaseFilter)
+                    || movimiento.getTipoO().toLowerCase().contains(lowerCaseFilter)
+                    || String.valueOf(movimiento.getCodigo()).contains(lowerCaseFilter)
+                    || String.valueOf(movimiento.getReferencia()).contains(lowerCaseFilter)
+                    || String.valueOf(movimiento.getDebe()).contains(lowerCaseFilter)
+                    || String.valueOf(movimiento.getHaber()).contains(lowerCaseFilter)
+                    || String.valueOf(movimiento.getSaldo()).contains(lowerCaseFilter);
+        });
+
+        // Actualizar la TableView con los resultados filtrados
+        Tablamov.setItems(filteredData);
+    }
+    // Método para calcular y retornar los totales de debe y haber
+
     private Double[] calcularDeberesyHaberes(ObservableList<Movimiento> x) {
         Double debe = 0.0;
         Double haber = 0.0;
@@ -1059,6 +1131,7 @@ private void buscarMovimientos(String searchText) {
 
         return new Double[]{debe, haber}; // Retorna un arreglo con [debe, haber]
     }
+
     // Método para calcular y mostrar los totales de todas las listas
     public void calcularTotalesDeTodasLasListas() {
         System.out.println("Totales de Movimientos:");
@@ -1101,158 +1174,244 @@ private void buscarMovimientos(String searchText) {
         System.out.println("Total de gastos : " + totalesDivisas[0]);
         System.out.println("Total de ingresos : " + totalesDivisas[1]);
     }
-  
-public void exportarAExcel() {
+
+    private void ajustarAnchoColumnas(TableView<Movimiento> tableView) {
+        // Establecer un ancho fijo para las columnas "Código" y "Tipo de Transacción"
+        for (TableColumn<Movimiento, ?> column : tableView.getColumns()) {
+            String columnName = column.getText(); // Obtener el texto del encabezado de la columna
+
+            // Establecer el ancho fijo para columnas específicas
+            if (columnName.equals("Código")) {
+                column.setPrefWidth(100); // Ancho fijo para la columna "Código"
+            } else if (columnName.equals("Tipo de Transacción")) {
+                column.setPrefWidth(150); // Ancho fijo para la columna "Tipo de Transacción"
+            } else {
+                // Para otras columnas, ajustar el ancho según el contenido
+                double maxWidth = 0;
+
+                // Iterar sobre cada fila en la tabla
+                for (int i = 0; i < tableView.getItems().size(); i++) {
+                    Object cellValue = column.getCellData(i);
+                    String cellText = (cellValue != null) ? cellValue.toString() : "";
+
+                    // Calcular el ancho del texto del contenido
+                    double contentWidth = new Text(cellText).getLayoutBounds().getWidth();
+                    maxWidth = Math.max(maxWidth, contentWidth);
+                }
+
+                // También considerar el ancho del encabezado para las columnas ajustables
+                double headerWidth = new Text(columnName).getLayoutBounds().getWidth();
+                maxWidth = Math.max(maxWidth, headerWidth); // Asegurarse de que el encabezado se ajuste
+
+                // Ajustar el ancho de la columna
+                column.setPrefWidth(maxWidth + 20); // Añadir un margen extra
+            }
+        }
+    }
+
+    private void exportarTodosLosMovimientos() {
+    Workbook workbook = new XSSFWorkbook();
+    Sheet sheet = workbook.createSheet("Movimientos");
+
+    // Crear un estilo para el encabezado
+    CellStyle headerStyle = workbook.createCellStyle();
+    headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+    headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+    // Crear un objeto DecimalFormatSymbols para la convención venezolana
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+    symbols.setGroupingSeparator('.');
+    symbols.setDecimalSeparator(',');
+    DecimalFormat df = new DecimalFormat("#,##0.00", symbols);
+
+    // Variables para totales generales
+    double totalGeneralDebe = 0;
+    double totalGeneralHaber = 0;
+    double totalGeneralSaldo = 0;
+
+    // Exportar cada tipo de movimiento y acumular totales
+    int currentRow = 0;
+    
+    double[] totales = exportarTipoMovimiento(sheet, "Transferencias", transferencias, df, headerStyle, workbook, currentRow);
+    totalGeneralDebe += totales[0];
+    totalGeneralHaber += totales[1];
+    totalGeneralSaldo += totales[2];
+    currentRow += transferencias.size() + 5;
+    
+    totales = exportarTipoMovimiento(sheet, "Pago Móvil", pagomovil, df, headerStyle, workbook, currentRow);
+    totalGeneralDebe += totales[0];
+    totalGeneralHaber += totales[1];
+    totalGeneralSaldo += totales[2];
+    currentRow += pagomovil.size() + 5;
+    
+    totales = exportarTipoMovimiento(sheet, "Compras", compras, df, headerStyle, workbook, currentRow);
+    totalGeneralDebe += totales[0];
+    totalGeneralHaber += totales[1];
+    totalGeneralSaldo += totales[2];
+    currentRow += compras.size() + 5;
+    
+    totales = exportarTipoMovimiento(sheet, "Comisiones", comisiones, df, headerStyle, workbook, currentRow);
+    totalGeneralDebe += totales[0];
+    totalGeneralHaber += totales[1];
+    totalGeneralSaldo += totales[2];
+    currentRow += comisiones.size() + 5;
+    
+    totales = exportarTipoMovimiento(sheet, "Nómina", nomina, df, headerStyle, workbook, currentRow);
+    totalGeneralDebe += totales[0];
+    totalGeneralHaber += totales[1];
+    totalGeneralSaldo += totales[2];
+    currentRow += nomina.size() + 5;
+    
+    totales = exportarTipoMovimiento(sheet, "Créditos", creditos, df, headerStyle, workbook, currentRow);
+    totalGeneralDebe += totales[0];
+    totalGeneralHaber += totales[1];
+    totalGeneralSaldo += totales[2];
+    currentRow += creditos.size() + 5;
+    
+    totales = exportarTipoMovimiento(sheet, "Divisas", divisas, df, headerStyle, workbook, currentRow);
+    totalGeneralDebe += totales[0];
+    totalGeneralHaber += totales[1];
+    totalGeneralSaldo += totales[2];
+    currentRow += divisas.size() + 5;
+
+    // Agregar fila de totales generales
+    agregarTotalesGenerales(sheet, df, workbook, totalGeneralDebe, totalGeneralHaber, totalGeneralSaldo);
+
+    // Guardar el archivo
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Guardar archivo Excel");
-    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos de Excel", "*.xlsx"));
-
-    Stage stage = (Stage) btnexportar.getScene().getWindow();
-    File file = fileChooser.showSaveDialog(stage);
-
+    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+    File file = fileChooser.showSaveDialog(btnexportar.getScene().getWindow());
     if (file != null) {
-        try (Workbook workbook = new XSSFWorkbook()) {
-            Sheet sheet = workbook.createSheet("Datos");
-
-            // Crea un estilo para los encabezados
-            CellStyle headerStyle = workbook.createCellStyle();
-            Font headerFont = workbook.createFont();
-            headerFont.setBold(true);
-            headerStyle.setFont(headerFont);
-            headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-            headerStyle.setBorderBottom(BorderStyle.THIN);
-            headerStyle.setBorderTop(BorderStyle.THIN);
-            headerStyle.setBorderLeft(BorderStyle.THIN);
-            headerStyle.setBorderRight(BorderStyle.THIN);
-
-            // Crea un estilo para los datos numéricos con formato negativo
-            CellStyle decimalStyleNegative = workbook.createCellStyle();
-            decimalStyleNegative.setDataFormat(workbook.createDataFormat().getFormat("-#,##0.00;-#,##0.00;;"));
-            decimalStyleNegative.setBorderBottom(BorderStyle.THIN);
-            decimalStyleNegative.setBorderTop(BorderStyle.THIN);
-            decimalStyleNegative.setBorderLeft(BorderStyle.THIN);
-            decimalStyleNegative.setBorderRight(BorderStyle.THIN);
-
-            // Crea un estilo para los datos numéricos con formato positivo
-            CellStyle decimalStylePositive = workbook.createCellStyle();
-            decimalStylePositive.setDataFormat(workbook.createDataFormat().getFormat("+#,##0.00;+#,##0.00;;"));
-            decimalStylePositive.setBorderBottom(BorderStyle.THIN);
-            decimalStylePositive.setBorderTop(BorderStyle.THIN);
-            decimalStylePositive.setBorderLeft(BorderStyle.THIN);
-            decimalStylePositive.setBorderRight(BorderStyle.THIN);
-
-            // Crea un estilo para las celdas de totales en amarillo
-          CellStyle totalStyle = workbook.createCellStyle();
-totalStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
-totalStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-totalStyle.setBorderBottom(BorderStyle.THIN);
-totalStyle.setBorderTop(BorderStyle.THIN);
-totalStyle.setBorderLeft(BorderStyle.THIN);
-totalStyle.setBorderRight(BorderStyle.THIN);
-totalStyle.setDataFormat(workbook.createDataFormat().getFormat("#,##0.00"));
-
-
-            // Crea un estilo para los datos de texto
-            CellStyle textStyle = workbook.createCellStyle();
-            textStyle.setBorderBottom(BorderStyle.THIN);
-            textStyle.setBorderTop(BorderStyle.THIN);
-            textStyle.setBorderLeft(BorderStyle.THIN);
-            textStyle.setBorderRight(BorderStyle.THIN);
-
-            // Inserta el nombre de la cuenta en la celda A1
-            String NombreCuenta = Nombrecuenta; // Reemplaza con el valor correcto de NombreCuenta
-            Row firstRow = sheet.createRow(0);
-            Cell firstCell = firstRow.createCell(0);
-            firstCell.setCellValue(NombreCuenta);
-            firstCell.setCellStyle(textStyle);
-
-            // Agrega los encabezados de las columnas desde la columna B
-            Row headerRow = sheet.createRow(1);
-            Cell headerCell = headerRow.createCell(1); // Columna B
-            headerCell.setCellValue("Descripción");
-            headerCell.setCellStyle(headerStyle);
-            
-            headerCell = headerRow.createCell(2); // Celda vacía para espacio
-            headerCell.setCellValue("");
-            headerCell.setCellStyle(headerStyle);
-
-            headerCell = headerRow.createCell(3); // Columna D
-            headerCell.setCellValue("Total de Gastos");
-            headerCell.setCellStyle(headerStyle);
-
-            headerCell = headerRow.createCell(4); // Columna E
-            headerCell.setCellValue("Total de Ingresos");
-            headerCell.setCellStyle(headerStyle);
-
-            // Agrega los datos
-            int rowNum = 2;
-            String[] categorias = {"Transferencias en línea", "Pago Móvil", "Compras Maestro/Tarjeta de Débito", "Comisiones Bancarias", "Nómina", "Créditos Inmediatos", "Gastos en relación a divisas"};
-            ObservableList<Movimiento>[] datos = new ObservableList[]{transferencias, pagomovil, compras, comisiones, nomina, creditos, divisas};
-
-            for (int i = 0; i < categorias.length; i++) {
-                Double[] totales = calcularDeberesyHaberes(datos[i]);
-                Row row = sheet.createRow(rowNum++);
-                Cell cell = row.createCell(1); // Columna B
-                cell.setCellValue(categorias[i]);
-                cell.setCellStyle(textStyle);
-                
-                cell = row.createCell(2); // Celda vacía para espacio
-                cell.setCellValue("");
-                cell.setCellStyle(textStyle);
-                
-                cell = row.createCell(3); // Columna D (Total de Gastos)
-                cell.setCellValue(totales[0]);
-                cell.setCellStyle(decimalStyleNegative);
-                
-                cell = row.createCell(4); // Columna E (Total de Ingresos)
-                cell.setCellValue(totales[1]);
-                cell.setCellStyle(decimalStylePositive);
-            }
-
-            // Agrega los totales generales al final
-            Double[] totalesMovimientos = calcularDeberesyHaberes(movimientos);
-            Row row = sheet.createRow(rowNum++);
-            Cell cell = row.createCell(1); // Columna B
-            cell.setCellValue("Totales");
-            cell.setCellStyle(textStyle);
-            
-            cell = row.createCell(2); // Celda vacía para espacio
-            cell.setCellValue("");
-            cell.setCellStyle(textStyle);
-            
-            // Celda para el total de gastos
-cell = row.createCell(3); // Columna D
-cell.setCellValue(totalesMovimientos[0]);
-cell.setCellStyle(totalesMovimientos[0] != 0 ? totalStyle : decimalStyleNegative);
-
-// Celda para el total de ingresos
-cell = row.createCell(4); // Columna E
-cell.setCellValue(totalesMovimientos[1]);
-cell.setCellStyle(totalesMovimientos[1] != 0 ? totalStyle : decimalStylePositive);
-
-
-            // Ajusta el tamaño de las columnas para que sean ajustables al texto y hace la celda C más grande
-            sheet.autoSizeColumn(1); // Ajusta la columna de Descripción
-            sheet.setColumnWidth(2, 4000); // Ajusta la celda vacía
-            sheet.autoSizeColumn(3); // Ajusta la columna de Total de Gastos
-            sheet.autoSizeColumn(4); // Ajusta la columna de Total de Ingresos
-
-            // Escribe el archivo
-            try (FileOutputStream fos = new FileOutputStream(file)) {
-                workbook.write(fos);
-            }
-             Alert alerta = new Alert(AlertType.INFORMATION);
-        alerta.setTitle("Informacion");
-        alerta.setHeaderText("Informacion");
-        alerta.setContentText("El archivo se ha creado correctamente ");
-        alerta.showAndWait();
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+            workbook.write(outputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    try {
+        workbook.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
 }
 
+// Método auxiliar para exportar un tipo de movimiento
+private double[] exportarTipoMovimiento(Sheet sheet, String tipoMovimiento, ObservableList<Movimiento> movimientos, DecimalFormat df, CellStyle headerStyle, Workbook workbook, int startRow) {
+    int rowNum = startRow;
 
+    // Crear una fila para el título
+    Row titleRow = sheet.createRow(rowNum++);
+    Cell titleCell = titleRow.createCell(0);
+    titleCell.setCellValue(tipoMovimiento);
+    CellStyle titleStyle = workbook.createCellStyle();
+    Font titleFont = workbook.createFont();
+    titleFont.setBold(true);
+    titleFont.setFontHeightInPoints((short) 14);
+    titleStyle.setFont(titleFont);
+    titleCell.setCellStyle(titleStyle);
+
+    // Crear la fila de encabezado
+    Row headerRow = sheet.createRow(rowNum++);
+    String[] columnHeaders = {"Fecha", "Código", "Tipo de Transacción", "Tipo de Operación", "Descripción", "Referencia", "Debe", "Haber", "Saldo"};
+    for (int i = 0; i < columnHeaders.length; i++) {
+        Cell cell = headerRow.createCell(i);
+        cell.setCellValue(columnHeaders[i]);
+        cell.setCellStyle(headerStyle);
+    }
+
+    // Agregar los movimientos
+    double totalDebe = 0;
+    double totalHaber = 0;
+    double totalSaldo = 0;
+
+    for (Movimiento movimiento : movimientos) {
+        Row row = sheet.createRow(rowNum++);
+        row.createCell(0).setCellValue(movimiento.getFecha().toString());
+        row.createCell(1).setCellValue(movimiento.getCodigo());
+        row.createCell(2).setCellValue(movimiento.getTipot());
+        row.createCell(3).setCellValue(movimiento.getTipoO());
+        row.createCell(4).setCellValue(movimiento.getDescripcion());
+        row.createCell(5).setCellValue(movimiento.getReferencia());
+
+        double debe = movimiento.getDebe();
+        double haber = movimiento.getHaber();
+        double saldo = movimiento.getSaldo();
+        
+        totalDebe += debe;
+        totalHaber += haber;
+        totalSaldo += saldo;
+
+        row.createCell(6).setCellValue(df.format(debe));
+        row.createCell(7).setCellValue(df.format(haber));
+        row.createCell(8).setCellValue(df.format(saldo));
+    }
+
+    // Crear una fila para los totales
+    Row totalRow = sheet.createRow(rowNum++);
+    totalRow.createCell(5).setCellValue("Totales");
+    totalRow.createCell(6).setCellValue(df.format(totalDebe));
+    totalRow.createCell(7).setCellValue(df.format(totalHaber));
+    totalRow.createCell(8).setCellValue(df.format(totalSaldo));
+
+    // Aplicar el estilo de totales
+    CellStyle totalStyle = workbook.createCellStyle();
+    Font font = workbook.createFont();
+    font.setBold(true);
+    totalStyle.setFont(font);
+    totalStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+    totalStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+    for (int i = 5; i <= 8; i++) {
+        totalRow.getCell(i).setCellStyle(totalStyle);
+    }
+
+    // Agregar filas vacías para separación
+    sheet.createRow(rowNum++);
+    sheet.createRow(rowNum++);
+
+    // Ajustar el ancho de las columnas automáticamente
+    for (int i = 0; i < columnHeaders.length; i++) {
+        sheet.autoSizeColumn(i);
+    }
+
+    return new double[]{totalDebe, totalHaber, totalSaldo}; // Retornar los totales para el cálculo general
+}
+
+private void agregarTotalesGenerales(Sheet sheet, DecimalFormat df, Workbook workbook, double totalGeneralDebe, double totalGeneralHaber, double totalGeneralSaldo) {
+    int rowNum = sheet.getLastRowNum() + 2; // Dejar una fila de espacio
+
+    // Crear una fila para el título de totales generales
+    Row titleGeneralRow = sheet.createRow(rowNum++);
+    Cell titleGeneralCell = titleGeneralRow.createCell(0);
+    titleGeneralCell.setCellValue("Totales Generales");
+    CellStyle titleGeneralStyle = workbook.createCellStyle();
+    Font titleGeneralFont = workbook.createFont();
+    titleGeneralFont.setBold(true);
+    titleGeneralFont.setFontHeightInPoints((short) 14);
+    titleGeneralStyle.setFont(titleGeneralFont);
+    titleGeneralCell.setCellStyle(titleGeneralStyle);
+
+    // Crear una fila para los totales generales
+    Row totalGeneralRow = sheet.createRow(rowNum);
+    totalGeneralRow.createCell(5).setCellValue("Totales Generales");
+    totalGeneralRow.createCell(6).setCellValue(df.format(totalGeneralDebe));
+    totalGeneralRow.createCell(7).setCellValue(df.format(totalGeneralHaber));
+    totalGeneralRow.createCell(8).setCellValue(df.format(totalGeneralSaldo));
+
+    // Aplicar el estilo de totales generales
+    CellStyle totalGeneralStyle = workbook.createCellStyle();
+    Font font = workbook.createFont();
+    font.setBold(true);
+    totalGeneralStyle.setFont(font);
+    totalGeneralStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+    totalGeneralStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+    for (int i = 5; i <= 8; i++) {
+        Cell cell = totalGeneralRow.getCell(i);
+        cell.setCellStyle(totalGeneralStyle);
+    }
+}
 
 }
